@@ -1,0 +1,14 @@
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\bin\Debug\StudentCourseHub.exe.config
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\bin\Debug\StudentCourseHub.exe
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\bin\Debug\StudentCourseHub.pdb
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.csprojAssemblyReference.cache
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Properties.Resources.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.csproj.GenerateResource.cache
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.exe
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.pdb
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.HomePage.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Login.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Splash.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Courses.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Instructors.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Students.resources
