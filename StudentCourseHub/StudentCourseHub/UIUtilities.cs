@@ -6,6 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/* 
+* Kyra Bolster
+*  Database Programming - Final Project
+*  June 7, 2020
+*/
+
 namespace StudentCourseHub
 {
     internal static class UIUtilities
@@ -32,8 +38,8 @@ namespace StudentCourseHub
                     case TextBox txt:
                         txt.Clear();
                         break;
-                    case CheckBox chk:
-                        chk.Checked = false;
+                    case ComboBox cmb:
+                        cmb.SelectedIndex = -1;
                         break;
                     case GroupBox gB:
                         ClearControls(gB.Controls);

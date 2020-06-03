@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.grpCourses = new System.Windows.Forms.GroupBox();
             this.cmbInstructors = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -46,13 +47,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtCourseTitle = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtCampus = new System.Windows.Forms.TextBox();
+            this.errProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.cmbCampus = new System.Windows.Forms.ComboBox();
             this.grpCourses.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // grpCourses
             // 
-            this.grpCourses.Controls.Add(this.txtCampus);
+            this.grpCourses.Controls.Add(this.cmbCampus);
             this.grpCourses.Controls.Add(this.cmbInstructors);
             this.grpCourses.Controls.Add(this.label6);
             this.grpCourses.Controls.Add(this.label5);
@@ -76,7 +79,7 @@
             this.grpCourses.Margin = new System.Windows.Forms.Padding(4);
             this.grpCourses.Name = "grpCourses";
             this.grpCourses.Padding = new System.Windows.Forms.Padding(4);
-            this.grpCourses.Size = new System.Drawing.Size(574, 566);
+            this.grpCourses.Size = new System.Drawing.Size(574, 540);
             this.grpCourses.TabIndex = 9;
             this.grpCourses.TabStop = false;
             this.grpCourses.Text = "Course Information";
@@ -89,6 +92,7 @@
             this.cmbInstructors.Size = new System.Drawing.Size(446, 28);
             this.cmbInstructors.TabIndex = 32;
             this.cmbInstructors.Tag = "Instructor";
+            this.cmbInstructors.Validating += new System.ComponentModel.CancelEventHandler(this.cmb_Validating);
             // 
             // label6
             // 
@@ -141,6 +145,7 @@
             this.btnCancel.TabIndex = 26;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnLast
             // 
@@ -178,6 +183,7 @@
             this.btnDelete.TabIndex = 24;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnFirst
             // 
@@ -202,6 +208,7 @@
             this.btnSave.TabIndex = 25;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnPrevious
             // 
@@ -237,6 +244,7 @@
             this.txtDescription.Size = new System.Drawing.Size(447, 67);
             this.txtDescription.TabIndex = 3;
             this.txtDescription.Tag = "Description";
+            this.txtDescription.Validating += new System.ComponentModel.CancelEventHandler(this.txt_Validating);
             // 
             // label3
             // 
@@ -257,6 +265,7 @@
             this.txtCourseTitle.Size = new System.Drawing.Size(447, 23);
             this.txtCourseTitle.TabIndex = 1;
             this.txtCourseTitle.Tag = "CourseTitle";
+            this.txtCourseTitle.Validating += new System.ComponentModel.CancelEventHandler(this.txt_Validating);
             // 
             // label2
             // 
@@ -268,12 +277,19 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Couse Title:";
             // 
-            // txtCampus
+            // errProvider
             // 
-            this.txtCampus.Location = new System.Drawing.Point(66, 273);
-            this.txtCampus.Name = "txtCampus";
-            this.txtCampus.Size = new System.Drawing.Size(445, 26);
-            this.txtCampus.TabIndex = 33;
+            this.errProvider.ContainerControl = this;
+            // 
+            // cmbCampus
+            // 
+            this.cmbCampus.FormattingEnabled = true;
+            this.cmbCampus.Location = new System.Drawing.Point(65, 273);
+            this.cmbCampus.Name = "cmbCampus";
+            this.cmbCampus.Size = new System.Drawing.Size(446, 28);
+            this.cmbCampus.TabIndex = 33;
+            this.cmbCampus.Tag = "Campus";
+            this.cmbCampus.Validating += new System.ComponentModel.CancelEventHandler(this.cmb_Validating);
             // 
             // Courses
             // 
@@ -287,6 +303,7 @@
             this.Load += new System.EventHandler(this.Courses_Load);
             this.grpCourses.ResumeLayout(false);
             this.grpCourses.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -311,6 +328,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbInstructors;
-        private System.Windows.Forms.TextBox txtCampus;
+        private System.Windows.Forms.ErrorProvider errProvider;
+        private System.Windows.Forms.ComboBox cmbCampus;
     }
 }

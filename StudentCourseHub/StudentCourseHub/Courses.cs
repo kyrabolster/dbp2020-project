@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -43,27 +44,103 @@ namespace StudentCourseHub
         #region Events
         private void Courses_Load(object sender, EventArgs e)
         {
-            LoadInstructors();
-            LoadFirstCourse();
+            try
+            {
+                LoadCampuses();
+                LoadInstructors();
+                LoadFirstCourse();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
+
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            UIUtilities.ClearControls(this.grpCourses.Controls);
+            try
+            {
+                UIUtilities.ClearControls(this.grpCourses.Controls);
 
-            btnSave.Text = "Create";
-            btnAdd.Enabled = false;
-            btnDelete.Enabled = false;
+                btnSave.Text = "Create";
+                btnAdd.Enabled = false;
+                btnDelete.Enabled = false;
 
-            NavigationState(false);
+                NavigationState(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this course from the database?", "Are you sure?", MessageBoxButtons.YesNo);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                DeleteCourse();
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateChildren(ValidationConstraints.Enabled))
+                {
+                    CreateCourse();
+                }
+            }
+            // add more sqlExceptions throughout
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            LoadCourseDetails();
+            btnAdd.Enabled = true;
+            btnAdd.Enabled = true;
+            btnDelete.Enabled = true;
+
+            NavigationState(true);
+            NextPreviousButtonManagement();
+        }
+
+
         private void Courses_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = false;
         }
+
         #endregion
 
         #region Retrieves
+
+        private void LoadCampuses()
+        {
+            cmbCampus.Items.Add("");
+            cmbCampus.Items.Add("Fredericton");
+            cmbCampus.Items.Add("Miramichi");
+            cmbCampus.Items.Add("Moncton");
+            cmbCampus.Items.Add("Saint John");
+            cmbCampus.Items.Add("St. Andrews");
+            cmbCampus.Items.Add("Woodstock");
+        }
+        private void LoadInstructors()
+        {
+            string sqlInstructors = "SELECT InstructorID, LastName + ', ' + FirstName AS WholeName FROM Instructor ORDER BY LastName, FirstName";
+            UIUtilities.BindComboBox(cmbInstructors, DataAccess.GetData(sqlInstructors), "WholeName", "InstructorId");
+        }
 
         private void LoadFirstCourse()
         {
@@ -89,15 +166,9 @@ namespace StudentCourseHub
             }
         }
 
-        private void LoadInstructors()
-        {
-            string sqlInstructors = "SELECT InstructorID, LastName + ', ' + FirstName AS WholeName FROM Instructor ORDER BY LastName, FirstName";
-            UIUtilities.BindComboBox(cmbInstructors, DataAccess.GetData(sqlInstructors), "WholeName", "InstructorId");
-        }
-
         private void LoadCourseDetails()
         {
-            //errProvider.Clear();
+            errProvider.Clear();
 
             string[] sqlStatements = new string[]
             {
@@ -115,10 +186,10 @@ namespace StudentCourseHub
                     q.NextCourseId,
                     q.NextInstructorId,
                     (
-                        SELECT TOP(1) CourseId as LastCourseId FROM Course ORDER BY CourseId Desc
+                        SELECT TOP(1) CourseId as LastCourseId FROM Course ORDER BY CourseTitle Desc
                     ) as LastCourseId,
                     (
-                        SELECT TOP(1) InstructorId as LastInstructorId FROM Course ORDER BY CourseId Desc
+                        SELECT TOP(1) InstructorId as LastInstructorId FROM Course ORDER BY CourseTitle Desc
                     ) as LastInstructorId
                     FROM
                     (
@@ -146,8 +217,21 @@ namespace StudentCourseHub
                     txtCourseId.Text = selectedCourse["CourseId"].ToString();
                     txtCourseTitle.Text = selectedCourse["CourseTitle"].ToString();
                     txtDescription.Text = selectedCourse["Description"].ToString();
-                    txtCampus.Text = selectedCourse["Campus"].ToString();
                     cmbInstructors.SelectedValue = selectedCourse["InstructorId"];
+
+                    // better way?
+                    if (selectedCourse["Campus"].ToString() == "Fredericton")
+                        cmbCampus.SelectedIndex = 1;
+                    else if (selectedCourse["Campus"].ToString() == "Miramichi")
+                        cmbCampus.SelectedIndex = 2;
+                    else if (selectedCourse["Campus"].ToString() == "Moncton")
+                        cmbCampus.SelectedIndex = 3;
+                    else if (selectedCourse["Campus"].ToString() == "Saint John")
+                        cmbCampus.SelectedIndex = 4;
+                    else if (selectedCourse["Campus"].ToString() == "St. Andrews")
+                        cmbCampus.SelectedIndex = 5;
+                    else
+                        cmbCampus.SelectedIndex = 0;
 
                     firstCourseId = Convert.ToInt32(ds.Tables[1].Rows[0]["FirstCourseId"]);
                     previousCourseId = ds.Tables[1].Rows[0]["PreviousCourseId"] != DBNull.Value ? Convert.ToInt32(ds.Tables["Table1"].Rows[0]["PreviousCourseId"]) : (int?)null;
@@ -172,6 +256,65 @@ namespace StudentCourseHub
         }
 
         #endregion
+
+        #region NonQuery
+        private void CreateCourse()
+        {
+            string courseTitle = txtCourseTitle.Text;
+            string description = txtDescription.Text;
+            string campus = cmbCampus.SelectedItem.ToString();
+            //string campus;
+            int instructorId = Convert.ToInt32(cmbInstructors.SelectedValue);
+
+
+            // Enforce business rules
+            // courses cannot have more than 1 instructor... dont really need to enforce that..?
+            // maybe come up with a new business rule
+            // idea: no duplicate courses ?
+
+            string sqlInsertCourse = $@"INSERT INTO Course (CourseTitle, Description, Campus, InstructorId) 
+                                                VALUES('{courseTitle}', '{description}', '{campus}', {instructorId})";
+
+            // how do you know if false data? eg description > 255 char ??
+
+            int rowsAffected = DataAccess.ExecuteNonQuery(sqlInsertCourse);
+
+            if (rowsAffected == 1)
+            {
+                MessageBox.Show("Course created.");
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+                LoadFirstCourse();
+            }
+            else
+            {
+                MessageBox.Show("The database did not report the correct number of rows affected.");
+            }
+        }
+
+        private void DeleteCourse()
+        {
+            int courseId = Convert.ToInt32(txtCourseId.Text);
+
+            string sqlDeleteCourse = $@"DELETE FROM StudentCourseHub.dbo.Course WHERE CourseId = {courseId}";
+
+            int rowsAffected = DataAccess.ExecuteNonQuery(sqlDeleteCourse);
+
+            if (rowsAffected == 1)
+            {
+                MessageBox.Show("Course deleted.");
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+                LoadFirstCourse();
+            }
+            else
+            {
+                MessageBox.Show("The database did not report the correct number of rows affected.");
+            }
+        }
+
+        #endregion
+
 
         #region Navigation
 
@@ -217,9 +360,59 @@ namespace StudentCourseHub
             btnPrevious.Enabled = enableState;
         }
 
+        #endregion
+
+        #region Status
+
+        // add status strip to mdi 
+
+        //private void SetStatusStrip(string text, Color foreColor)
+        //{
+        //    toolStripStatusLabel1.Text = text;
+        //    toolStripStatusLabel1.ForeColor = foreColor;
+        //}
 
         #endregion
 
+        #region Validation
+
+        private void cmb_Validating(object sender, CancelEventArgs e)
+        {
+            ComboBox cmb = (ComboBox)sender;
+            string cmbName = cmb.Tag.ToString();
+
+            string errMsg = null;
+            bool failedValidation = false;
+
+            if (cmb.SelectedIndex == -1 || cmb.SelectedIndex == 0)
+            {
+                errMsg = $"{cmbName} is required";
+                failedValidation = true;
+            }
+
+            e.Cancel = failedValidation;
+            errProvider.SetError(cmb, errMsg);
+        }
+
+        private void txt_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+            string txtBoxName = txt.Tag.ToString();
+            string errMsg = null;
+            bool failedValidation = false;
+
+            if (txt.Text == string.Empty)
+            {
+                errMsg = $"{txtBoxName} is required";
+                failedValidation = true;
+            }
+
+            e.Cancel = failedValidation;
+
+            errProvider.SetError(txt, errMsg);
+        }
+
+        #endregion
 
     }
 }

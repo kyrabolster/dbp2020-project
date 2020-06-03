@@ -19,33 +19,53 @@ namespace StudentCourseHub
 
         private void HomePage_Load(object sender, EventArgs e)
         {
-            Splash mySplash = new Splash();
-            Login myLogin = new Login();
+            // commented for faster testing
 
-            mySplash.ShowDialog();
+            //Splash mySplash = new Splash();
+            //Login myLogin = new Login();
 
-            if (mySplash.DialogResult != DialogResult.OK)
-            {
-                this.Close();
-            }
-            else
-            {
-                myLogin.ShowDialog();
-            }
+            //mySplash.ShowDialog();
 
-            if (myLogin.DialogResult == DialogResult.OK)
-            {
-                this.Show();
-            }
-            else
-            {
-                this.Close();
-            }
+            //if (mySplash.DialogResult != DialogResult.OK)
+            //{
+            //    this.Close();
+            //}
+            //else
+            //{
+            //    myLogin.ShowDialog();
+            //}
+
+            //if (myLogin.DialogResult == DialogResult.OK)
+            //{
+            //    this.Show();
+            //}
+            //else
+            //{
+            //    this.Close();
+            //}
         }
 
         private void coursesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Courses resultsForm = new Courses();
+            resultsForm.Show();
+        }
+
+        private void courseStudentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewCourseStudents resultsForm = new ViewCourseStudents();
+            resultsForm.Show();
+        }
+
+        private void studentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Students resultsForm = new Students();
+            resultsForm.Show();
+        }
+
+        private void studentsCoursesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewStudentCourses resultsForm = new ViewStudentCourses();
             resultsForm.Show();
         }
     }

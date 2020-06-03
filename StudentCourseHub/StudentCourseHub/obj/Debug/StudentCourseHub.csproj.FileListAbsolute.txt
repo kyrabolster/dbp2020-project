@@ -12,3 +12,5 @@ D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\Studen
 D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Courses.resources
 D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Instructors.resources
 D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.Students.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.ViewCourseStudents.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.ViewStudentCourses.resources
