@@ -31,6 +31,14 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MDIHome));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.homeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.navigateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.homeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.coursesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.studentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.instructorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.courseSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.classlistsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,9 +76,8 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.homeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.coursesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.btnHomeIcon = new System.Windows.Forms.ToolStripButton();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -82,13 +89,6 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.navigateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.coursesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.studentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.homeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.instructorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.courseSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.classlistsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -98,21 +98,89 @@
             // 
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.homeToolStripMenuItem,
+            this.navigateToolStripMenuItem,
             this.fileMenu,
             this.editMenu,
             this.viewMenu,
             this.toolsMenu,
             this.windowsMenu,
-            this.helpMenu,
-            this.homeToolStripMenuItem,
-            this.coursesToolStripMenuItem,
-            this.navigateToolStripMenuItem});
+            this.helpMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.MdiWindowListItem = this.windowsMenu;
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1468, 28);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
+            // 
+            // homeToolStripMenuItem
+            // 
+            this.homeToolStripMenuItem.Name = "homeToolStripMenuItem";
+            this.homeToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            this.homeToolStripMenuItem.Tag = "Home";
+            this.homeToolStripMenuItem.Text = "Home";
+            this.homeToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
+            // 
+            // navigateToolStripMenuItem
+            // 
+            this.navigateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.homeToolStripMenuItem1,
+            this.coursesToolStripMenuItem1,
+            this.studentsToolStripMenuItem,
+            this.instructorsToolStripMenuItem,
+            this.courseSelectionToolStripMenuItem,
+            this.classlistsToolStripMenuItem});
+            this.navigateToolStripMenuItem.Name = "navigateToolStripMenuItem";
+            this.navigateToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
+            this.navigateToolStripMenuItem.Text = "Navigate";
+            // 
+            // homeToolStripMenuItem1
+            // 
+            this.homeToolStripMenuItem1.Name = "homeToolStripMenuItem1";
+            this.homeToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.homeToolStripMenuItem1.Tag = "Home";
+            this.homeToolStripMenuItem1.Text = "Home";
+            this.homeToolStripMenuItem1.Click += new System.EventHandler(this.ShowNewForm);
+            // 
+            // coursesToolStripMenuItem1
+            // 
+            this.coursesToolStripMenuItem1.Name = "coursesToolStripMenuItem1";
+            this.coursesToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
+            this.coursesToolStripMenuItem1.Tag = "Courses";
+            this.coursesToolStripMenuItem1.Text = "Courses";
+            this.coursesToolStripMenuItem1.Click += new System.EventHandler(this.ShowNewForm);
+            // 
+            // studentsToolStripMenuItem
+            // 
+            this.studentsToolStripMenuItem.Name = "studentsToolStripMenuItem";
+            this.studentsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.studentsToolStripMenuItem.Tag = "Students";
+            this.studentsToolStripMenuItem.Text = "Students";
+            this.studentsToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
+            // 
+            // instructorsToolStripMenuItem
+            // 
+            this.instructorsToolStripMenuItem.Name = "instructorsToolStripMenuItem";
+            this.instructorsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.instructorsToolStripMenuItem.Tag = "Instructors";
+            this.instructorsToolStripMenuItem.Text = "Instructors";
+            this.instructorsToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
+            // 
+            // courseSelectionToolStripMenuItem
+            // 
+            this.courseSelectionToolStripMenuItem.Name = "courseSelectionToolStripMenuItem";
+            this.courseSelectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.courseSelectionToolStripMenuItem.Tag = "CourseSelect";
+            this.courseSelectionToolStripMenuItem.Text = "Course Selection";
+            this.courseSelectionToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
+            // 
+            // classlistsToolStripMenuItem
+            // 
+            this.classlistsToolStripMenuItem.Name = "classlistsToolStripMenuItem";
+            this.classlistsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.classlistsToolStripMenuItem.Tag = "Classlist";
+            this.classlistsToolStripMenuItem.Text = "Classlist";
+            this.classlistsToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
             // 
             // fileMenu
             // 
@@ -420,28 +488,15 @@
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.aboutToolStripMenuItem.Tag = "About";
             this.aboutToolStripMenuItem.Text = "&About ... ...";
-            // 
-            // homeToolStripMenuItem
-            // 
-            this.homeToolStripMenuItem.Name = "homeToolStripMenuItem";
-            this.homeToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
-            this.homeToolStripMenuItem.Tag = "Home";
-            this.homeToolStripMenuItem.Text = "Home";
-            this.homeToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
-            // 
-            // coursesToolStripMenuItem
-            // 
-            this.coursesToolStripMenuItem.Name = "coursesToolStripMenuItem";
-            this.coursesToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
-            this.coursesToolStripMenuItem.Tag = "Courses";
-            this.coursesToolStripMenuItem.Text = "Courses";
-            this.coursesToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
             // 
             // toolStrip
             // 
             this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnHomeIcon,
             this.newToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
@@ -455,6 +510,17 @@
             this.toolStrip.Size = new System.Drawing.Size(1468, 27);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "ToolStrip";
+            // 
+            // btnHomeIcon
+            // 
+            this.btnHomeIcon.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnHomeIcon.Image = global::StudentCourseHub.Properties.Resources.home_2;
+            this.btnHomeIcon.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnHomeIcon.Name = "btnHomeIcon";
+            this.btnHomeIcon.Size = new System.Drawing.Size(29, 24);
+            this.btnHomeIcon.Tag = "Home";
+            this.btnHomeIcon.Text = "Home";
+            this.btnHomeIcon.Click += new System.EventHandler(this.btnHomeIcon_Click);
             // 
             // newToolStripButton
             // 
@@ -540,67 +606,6 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(49, 20);
             this.toolStripStatusLabel.Text = "Status";
             // 
-            // navigateToolStripMenuItem
-            // 
-            this.navigateToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.homeToolStripMenuItem1,
-            this.coursesToolStripMenuItem1,
-            this.studentsToolStripMenuItem,
-            this.instructorsToolStripMenuItem,
-            this.courseSelectionToolStripMenuItem,
-            this.classlistsToolStripMenuItem});
-            this.navigateToolStripMenuItem.Name = "navigateToolStripMenuItem";
-            this.navigateToolStripMenuItem.Size = new System.Drawing.Size(83, 24);
-            this.navigateToolStripMenuItem.Text = "Navigate";
-            // 
-            // coursesToolStripMenuItem1
-            // 
-            this.coursesToolStripMenuItem1.Name = "coursesToolStripMenuItem1";
-            this.coursesToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.coursesToolStripMenuItem1.Tag = "Courses";
-            this.coursesToolStripMenuItem1.Text = "Courses";
-            this.coursesToolStripMenuItem1.Click += new System.EventHandler(this.ShowNewForm);
-            // 
-            // studentsToolStripMenuItem
-            // 
-            this.studentsToolStripMenuItem.Name = "studentsToolStripMenuItem";
-            this.studentsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.studentsToolStripMenuItem.Tag = "Students";
-            this.studentsToolStripMenuItem.Text = "Students";
-            this.studentsToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
-            // 
-            // homeToolStripMenuItem1
-            // 
-            this.homeToolStripMenuItem1.Name = "homeToolStripMenuItem1";
-            this.homeToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
-            this.homeToolStripMenuItem1.Tag = "Home";
-            this.homeToolStripMenuItem1.Text = "Home";
-            this.homeToolStripMenuItem1.Click += new System.EventHandler(this.ShowNewForm);
-            // 
-            // instructorsToolStripMenuItem
-            // 
-            this.instructorsToolStripMenuItem.Name = "instructorsToolStripMenuItem";
-            this.instructorsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.instructorsToolStripMenuItem.Tag = "Instructors";
-            this.instructorsToolStripMenuItem.Text = "Instructors";
-            this.instructorsToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
-            // 
-            // courseSelectionToolStripMenuItem
-            // 
-            this.courseSelectionToolStripMenuItem.Name = "courseSelectionToolStripMenuItem";
-            this.courseSelectionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.courseSelectionToolStripMenuItem.Tag = "CourseSelect";
-            this.courseSelectionToolStripMenuItem.Text = "Course Selection";
-            this.courseSelectionToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
-            // 
-            // classlistsToolStripMenuItem
-            // 
-            this.classlistsToolStripMenuItem.Name = "classlistsToolStripMenuItem";
-            this.classlistsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.classlistsToolStripMenuItem.Tag = "Classlist";
-            this.classlistsToolStripMenuItem.Text = "Classlists";
-            this.classlistsToolStripMenuItem.Click += new System.EventHandler(this.ShowNewForm);
-            // 
             // MDIHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -680,7 +685,6 @@
         private System.Windows.Forms.ToolStripButton printPreviewToolStripButton;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.ToolStripMenuItem coursesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem homeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem navigateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem homeToolStripMenuItem1;
@@ -689,6 +693,7 @@
         private System.Windows.Forms.ToolStripMenuItem instructorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem courseSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem classlistsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton btnHomeIcon;
     }
 }
 

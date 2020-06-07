@@ -137,6 +137,7 @@
             this.Name = "HomeLanding";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Tag = "Home";
+            this.Load += new System.EventHandler(this.HomeLanding_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

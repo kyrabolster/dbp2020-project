@@ -3,6 +3,12 @@ using System.Data;
 using System.Data.SqlClient;
 using CM = System.Configuration.ConfigurationManager;//ConfigurationManager alias import
 
+/* 
+* Kyra Bolster
+*  Database Programming - Final Project
+*  June 7, 2020
+*/
+
 namespace StudentCourseHub
 {
     internal static class DataAccess
@@ -114,7 +120,7 @@ namespace StudentCourseHub
         }
 
         /// <summary>
-        /// returns the first value of the result set
+        /// Returns the first value of the result set
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>

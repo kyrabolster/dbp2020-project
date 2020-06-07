@@ -64,6 +64,7 @@
             // dgvYourCourses
             // 
             this.dgvYourCourses.AllowUserToAddRows = false;
+            this.dgvYourCourses.BackgroundColor = System.Drawing.Color.White;
             this.dgvYourCourses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvYourCourses.Location = new System.Drawing.Point(8, 39);
             this.dgvYourCourses.Name = "dgvYourCourses";
@@ -211,6 +212,7 @@
             // 
             // grpCourseSelect
             // 
+            this.grpCourseSelect.BackColor = System.Drawing.Color.White;
             this.grpCourseSelect.Controls.Add(this.cmbCampus2);
             this.grpCourseSelect.Controls.Add(this.cmbInstructors2);
             this.grpCourseSelect.Controls.Add(this.label4);
@@ -334,6 +336,7 @@
             // dgvCourseSelect
             // 
             this.dgvCourseSelect.AllowUserToAddRows = false;
+            this.dgvCourseSelect.BackgroundColor = System.Drawing.Color.White;
             this.dgvCourseSelect.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCourseSelect.Location = new System.Drawing.Point(8, 34);
             this.dgvCourseSelect.Name = "dgvCourseSelect";
@@ -345,6 +348,7 @@
             // 
             // grpYourCourses
             // 
+            this.grpYourCourses.BackColor = System.Drawing.Color.White;
             this.grpYourCourses.Controls.Add(this.btnDrop);
             this.grpYourCourses.Controls.Add(this.cmbCampus);
             this.grpYourCourses.Controls.Add(this.cmbInstructors);
@@ -368,13 +372,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(189)))), ((int)(((byte)(96)))));
             this.ClientSize = new System.Drawing.Size(1193, 750);
             this.Controls.Add(this.grpYourCourses);
             this.Controls.Add(this.cmbStudents);
             this.Controls.Add(this.grpCourseSelect);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "frmCourseSelect";
-            this.Text = "StudentCourses";
-            this.Load += new System.EventHandler(this.ViewStudentCourses_Load);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Course Selection";
+            this.Load += new System.EventHandler(this.CourseSelect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvYourCourses)).EndInit();
             this.grpCourseSelect.ResumeLayout(false);
             this.grpCourseSelect.PerformLayout();

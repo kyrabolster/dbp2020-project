@@ -15,3 +15,8 @@ D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\Studen
 D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.frmClasslist.resources
 D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.frmCourseSelect.resources
 D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.HomeLanding.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.frmAbout.resources
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\bin\Debug\StudentCourseHub.exe.manifest
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\bin\Debug\StudentCourseHub.application
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.exe.manifest
+D:\Github\DBP\dbp2020-project\StudentCourseHub\StudentCourseHub\obj\Debug\StudentCourseHub.application

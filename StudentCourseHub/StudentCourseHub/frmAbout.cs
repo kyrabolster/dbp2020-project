@@ -16,20 +16,23 @@ using System.Windows.Forms;
 
 namespace StudentCourseHub
 {
-    public partial class Splash : Form
+    public partial class frmAbout : Form
     {
-        public Splash()
+        public frmAbout()
         {
             InitializeComponent();
         }
 
-        private void Splash_Load(object sender, EventArgs e)
+        private void frmAbout_Load(object sender, EventArgs e)
         {
             try
             {
-                label1.Text = Application.ProductName;
-                label2.Text = Application.ProductVersion;
-                label3.Text = Application.CompanyName;
+                label2.Text = Application.ProductName;
+                label3.Text = "Version" + Application.ProductVersion;
+                label4.Text = Application.CompanyName;
+                label5.Text = "StudentCourseHub is a platform for managing Courses, Students, Classlists, and Course Selection.";
+
+                ((MDIHome)this.MdiParent).StatusStipLabel.Text = "About StudentCourseHub";
             }
             catch (Exception ex)
             {
@@ -38,15 +41,6 @@ namespace StudentCourseHub
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-            //DialogResult = DialogResult.Cancel;
-        }
     }
 }

@@ -9,6 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/* 
+* Kyra Bolster
+*  Database Programming - Final Project
+*  June 7, 2020
+*/
+
 namespace StudentCourseHub
 {
     public partial class Login : Form

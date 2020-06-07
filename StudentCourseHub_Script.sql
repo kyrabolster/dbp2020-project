@@ -1,3 +1,5 @@
+USE [StudentCourseHub]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourse]') AND type in (N'U'))
 ALTER TABLE [dbo].[StudentCourse] DROP CONSTRAINT IF EXISTS [FK_StudentCourse_StudentCourse]
 GO
@@ -7,22 +9,27 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Course]') AND type in (N'U'))
 ALTER TABLE [dbo].[Course] DROP CONSTRAINT IF EXISTS [FK_Course_Instructor]
 GO
-/****** Object:  Table [dbo].[StudentCourse]    Script Date: 2020-06-01 8:01:23 PM ******/
+/****** Object:  Table [dbo].[StudentCourse]    Script Date: 2020-06-07 4:51:01 PM ******/
 DROP TABLE IF EXISTS [dbo].[StudentCourse]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2020-06-01 8:01:23 PM ******/
+/****** Object:  Table [dbo].[Student]    Script Date: 2020-06-07 4:51:01 PM ******/
 DROP TABLE IF EXISTS [dbo].[Student]
 GO
-/****** Object:  Table [dbo].[Instructor]    Script Date: 2020-06-01 8:01:23 PM ******/
+/****** Object:  Table [dbo].[Login]    Script Date: 2020-06-07 4:51:01 PM ******/
+DROP TABLE IF EXISTS [dbo].[Login]
+GO
+/****** Object:  Table [dbo].[Instructor]    Script Date: 2020-06-07 4:51:01 PM ******/
 DROP TABLE IF EXISTS [dbo].[Instructor]
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2020-06-01 8:01:23 PM ******/
+/****** Object:  Table [dbo].[Course]    Script Date: 2020-06-07 4:51:01 PM ******/
 DROP TABLE IF EXISTS [dbo].[Course]
 GO
-/****** Object:  Database [StudentCourseHub]    Script Date: 2020-06-01 8:01:23 PM ******/
+USE [master]
+GO
+/****** Object:  Database [StudentCourseHub]    Script Date: 2020-06-07 4:51:01 PM ******/
 DROP DATABASE IF EXISTS [StudentCourseHub]
 GO
-/****** Object:  Database [StudentCourseHub]    Script Date: 2020-06-01 8:01:23 PM ******/
+/****** Object:  Database [StudentCourseHub]    Script Date: 2020-06-07 4:51:01 PM ******/
 CREATE DATABASE [StudentCourseHub]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -99,7 +106,9 @@ EXEC sys.sp_db_vardecimal_storage_format N'StudentCourseHub', N'ON'
 GO
 ALTER DATABASE [StudentCourseHub] SET QUERY_STORE = OFF
 GO
-/****** Object:  Table [dbo].[Course]    Script Date: 2020-06-01 8:01:23 PM ******/
+USE [StudentCourseHub]
+GO
+/****** Object:  Table [dbo].[Course]    Script Date: 2020-06-07 4:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -116,7 +125,7 @@ CREATE TABLE [dbo].[Course](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Instructor]    Script Date: 2020-06-01 8:01:23 PM ******/
+/****** Object:  Table [dbo].[Instructor]    Script Date: 2020-06-07 4:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -134,7 +143,21 @@ CREATE TABLE [dbo].[Instructor](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Student]    Script Date: 2020-06-01 8:01:23 PM ******/
+/****** Object:  Table [dbo].[Login]    Script Date: 2020-06-07 4:51:02 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Login](
+	[Username] [nchar](25) NOT NULL,
+	[Password] [nchar](25) NOT NULL,
+ CONSTRAINT [PK_Login] PRIMARY KEY CLUSTERED 
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Student]    Script Date: 2020-06-07 4:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -153,7 +176,7 @@ CREATE TABLE [dbo].[Student](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[StudentCourse]    Script Date: 2020-06-01 8:01:23 PM ******/
+/****** Object:  Table [dbo].[StudentCourse]    Script Date: 2020-06-07 4:51:02 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -170,18 +193,17 @@ CREATE TABLE [dbo].[StudentCourse](
 GO
 SET IDENTITY_INSERT [dbo].[Course] ON 
 GO
-INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (1, N'JavaScript Programming', N'In this course, students study the JavaScript programming language and become familiar with some fundamental programming concepts.', N'Moncton', 2)
+INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (1, N'JavaScript Programming', N'In this course, students study the JavaScript programming language and become familiar with some fundamental programming concepts.', N'Saint John', 2)
 GO
-INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (5, N'Introduction to Networks', N'This course introduces students to fundamental networking concepts and technologies including architecture, structure, functions and components.', N'Moncton', 6)
+INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (5, N'Introduction to Networks', N'This course introduces students to fundamental networking concepts and technologies including architecture, structure, functions and components.', N'Woodstock', 6)
 GO
 INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (9, N'Responsive Web Design', N'Responsive Web Design is a web design approach aimed at providing optimal viewing across a wide variety of devices from desktop computers to mobile devices.', N'Moncton', 4)
 GO
 INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (10, N'Quality Assurance Testing', N'In this course, students gain exposure to the software testing process with a focus on product quality subsequent to unit testing. Software testing is examined from the perspective of the stakeholders involved.', N'Moncton', 5)
 GO
-INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (11, N'Database Programming', N'This course introduces the students to database programming.   As an essential part of understanding and building user applications, students learn to connect and update the data in a database.
-', N'Moncton', 2)
-GO
 INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (12, N'N-tier Development', N'This course introduces students to an n-tier design methodology that utilizes advanced architectural concepts to optimize scalability and performance.', N'Moncton', 6)
+GO
+INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (23, N'Business', N'As global markets become increasingly competitive, employers are seeking information technology (IT) professionals who are not only talented developers or systems administrators, but also understand business.', N'Moncton', 2)
 GO
 SET IDENTITY_INSERT [dbo].[Course] OFF
 GO
@@ -197,15 +219,17 @@ INSERT [dbo].[Instructor] ([InstructorId], [FirstName], [MiddleName], [LastName]
 GO
 SET IDENTITY_INSERT [dbo].[Instructor] OFF
 GO
+INSERT [dbo].[Login] ([Username], [Password]) VALUES (N'Admin                    ', N'Pass123                  ')
+GO
+INSERT [dbo].[Login] ([Username], [Password]) VALUES (N'KyraB                    ', N'12345                    ')
+GO
 SET IDENTITY_INSERT [dbo].[Student] ON 
 GO
-INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (3, N'Jerry', N'M', N'Enyeart', N'2461 Mountain Rd', N'xtqp9xrz0vh@powerencry.com', N'506-871-9759')
+INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (3, N'Jerry Jr', N'M', N'Enyeart', N'2461 Mountain Rd', N'xtqp9xrz0vh@powerencry.com', N'506-871-9759')
 GO
 INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (7, N'Linda', N'D', N'Watson', N'3862 Mountain Rd', N'mr9x9zvl2o@classesmail.com', N'506-961-0828')
 GO
 INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (9, N'Alberta', N'C', N'Rogers', N'634 Mountain Rd', N'pwb5z4mwzm@groupbuff.com', N'506-961-1329')
-GO
-INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (10, N'Colleen', N'T', N'Fields', N'1548 Mountain Rd', N'xq4cmkgrhuj@groupbuff.com', N'506-961-6576')
 GO
 INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (12, N'Sydney', N'C', N'Wilder', N'4379 Mountain Rd', N'mqtpgtv5jzc@groupbuff.com', N'506-871-9172')
 GO
@@ -217,7 +241,7 @@ INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Add
 GO
 INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (20, N'Fadi', NULL, N'Fakhouri', N'8 Derry Rd', N'm7j6t2mqjf@powerencry.com', N'416-270-8447')
 GO
-INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (21, N'Arturo', NULL, N'Anand', N'2626 Granville St', N'd3zh8c7xnda@powerencry.com', N'902-448-1787')
+INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (21, N'Arturo', N'L', N'Anand', N'2626 Granville St', N'd3zh8c7xnda@powerencry.com', N'902-448-1787')
 GO
 INSERT [dbo].[Student] ([StudentId], [FirstName], [MiddleName], [LastName], [Address], [Email], [Phone]) VALUES (22, N'Yan', NULL, N'Li', N'551 Adelaide St', N'y5vl96bcl3l@groupbuff.com', N'416-607-3185')
 GO
@@ -235,19 +259,17 @@ INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (3, 1)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (3, 5)
 GO
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (3, 10)
+GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (3, 12)
+GO
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (3, 23)
+GO
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (7, 5)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (7, 9)
 GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (7, 11)
-GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (9, 10)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (10, 1)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (10, 5)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (10, 12)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (12, 5)
 GO
@@ -255,11 +277,9 @@ INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (12, 9)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (12, 12)
 GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (13, 1)
-GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (13, 9)
 GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (14, 11)
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (13, 12)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (19, 1)
 GO
@@ -267,37 +287,31 @@ INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (19, 12)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (20, 5)
 GO
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (20, 23)
+GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (21, 1)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (21, 9)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (21, 10)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (21, 11)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (22, 5)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (22, 9)
 GO
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (22, 10)
+GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (23, 1)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (23, 11)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (24, 5)
-GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (24, 9)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (24, 12)
 GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (25, 5)
-GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (25, 10)
+GO
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (25, 12)
+GO
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (25, 23)
 GO
 INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (30, 1)
 GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (30, 10)
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (30, 9)
 GO
-INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (30, 11)
+INSERT [dbo].[StudentCourse] ([StudentId], [CourseId]) VALUES (30, 10)
 GO
 ALTER TABLE [dbo].[Course]  WITH CHECK ADD  CONSTRAINT [FK_Course_Instructor] FOREIGN KEY([InstructorId])
 REFERENCES [dbo].[Instructor] ([InstructorId])
@@ -313,6 +327,8 @@ ALTER TABLE [dbo].[StudentCourse]  WITH CHECK ADD  CONSTRAINT [FK_StudentCourse_
 REFERENCES [dbo].[Student] ([StudentId])
 GO
 ALTER TABLE [dbo].[StudentCourse] CHECK CONSTRAINT [FK_StudentCourse_StudentCourse]
+GO
+USE [master]
 GO
 ALTER DATABASE [StudentCourseHub] SET  READ_WRITE 
 GO

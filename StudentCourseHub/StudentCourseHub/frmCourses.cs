@@ -42,6 +42,11 @@ namespace StudentCourseHub
         #endregion
 
         #region Events
+        /// <summary>
+        /// Form Load and Setup
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Courses_Load(object sender, EventArgs e)
         {
             try
@@ -50,6 +55,10 @@ namespace StudentCourseHub
                 LoadInstructors();
                 LoadFirstCourse();
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.GetType().ToString());
@@ -57,6 +66,11 @@ namespace StudentCourseHub
 
         }
 
+        /// <summary>
+        /// Change form display to add a course
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -68,8 +82,9 @@ namespace StudentCourseHub
                 btnDelete.Enabled = false;
                 btnSave.Enabled = false;
 
-
                 NavigationState(false);
+                SetStatusStrip("Press 'Create' to add your course...");
+
             }
             catch (Exception ex)
             {
@@ -77,16 +92,38 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Delete course button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this course from the database?", "Are you sure?", MessageBoxButtons.YesNo);
-
-            if (dialogResult == DialogResult.Yes)
+            try
             {
-                DeleteCourse();
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this course from the database?" +
+                    "\r\nAll enrolled students will be removed from the course.", "Are you sure?", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    DeleteCourse();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
         }
 
+        /// <summary>
+        /// Save changes button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
@@ -105,7 +142,6 @@ namespace StudentCourseHub
                     }
                 }
             }
-            // add more sqlExceptions throughout
             catch (SqlException ex)
             {
                 MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
@@ -116,6 +152,11 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Create course button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCreate_Click(object sender, EventArgs e)
         {
             try
@@ -125,7 +166,6 @@ namespace StudentCourseHub
                     CreateCourse();
                 }
             }
-            // add more sqlExceptions throughout
             catch (SqlException ex)
             {
                 MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
@@ -136,16 +176,28 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Cancel actions and reset form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            LoadCourseDetails();
-            btnAdd.Enabled = true;
-            btnAdd.Enabled = true;
-            btnDelete.Enabled = true;
-            btnSave.Enabled = true;
+            try
+            {
+                LoadCourseDetails();
+                btnAdd.Enabled = true;
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+                btnSave.Enabled = true;
 
-            NavigationState(true);
-            NextPreviousButtonManagement();
+                NavigationState(true);
+                NextPreviousButtonManagement();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
 
 
@@ -158,6 +210,9 @@ namespace StudentCourseHub
 
         #region Retrieves
 
+        /// <summary>
+        /// Load campuses to combobox
+        /// </summary>
         private void LoadCampuses()
         {
             cmbCampus.Items.Add("");
@@ -168,12 +223,19 @@ namespace StudentCourseHub
             cmbCampus.Items.Add("St. Andrews");
             cmbCampus.Items.Add("Woodstock");
         }
+
+        /// <summary>
+        /// Load instructors to combobox
+        /// </summary>
         private void LoadInstructors()
         {
             string sqlInstructors = "SELECT InstructorID, LastName + ', ' + FirstName AS WholeName FROM Instructor ORDER BY LastName, FirstName";
             UIUtilities.BindComboBox(cmbInstructors, DataAccess.GetData(sqlInstructors), "WholeName", "InstructorId");
         }
 
+        /// <summary>
+        /// Load and display first course
+        /// </summary>
         private void LoadFirstCourse()
         {
             try
@@ -198,9 +260,11 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Load and dispay course details
+        /// </summary>
         private void LoadCourseDetails()
         {
-            //necessary?
             errProvider.Clear();
 
             string[] sqlStatements = new string[]
@@ -262,6 +326,8 @@ namespace StudentCourseHub
                     previousInstructorId = ds.Tables[1].Rows[0]["PreviousInstructorId"] != DBNull.Value ? Convert.ToInt32(ds.Tables["Table1"].Rows[0]["PreviousInstructorId"]) : (int?)null;
                     nextInstructorId = ds.Tables[1].Rows[0]["NextInstructorId"] != DBNull.Value ? Convert.ToInt32(ds.Tables["Table1"].Rows[0]["NextInstructorId"]) : (int?)null;
                     lastInstructorId = Convert.ToInt32(ds.Tables[1].Rows[0]["LastInstructorId"]);
+
+                    SetStatusStrip($"Viewing course id: {currentCourseId}");
                 }
                 else
                 {
@@ -278,6 +344,10 @@ namespace StudentCourseHub
         #endregion
 
         #region NonQuery
+
+        /// <summary>
+        /// Insert course into database
+        /// </summary>
         private void CreateCourse()
         {
             string courseTitle = txtCourseTitle.Text;
@@ -287,17 +357,14 @@ namespace StudentCourseHub
             int instructorId = Convert.ToInt32(cmbInstructors.SelectedValue);
 
 
-            // Enforce business rules
-
             string sqlInsertCourse = $@"INSERT INTO Course (CourseTitle, Description, Campus, InstructorId) 
                                                 VALUES('{courseTitle}', '{description}', '{campus}', {instructorId})";
-
-            // how do you know if false data? eg description > 255 char ??
 
             int rowsAffected = DataAccess.ExecuteNonQuery(sqlInsertCourse);
 
             if (rowsAffected == 1)
             {
+                SetStatusStrip("Creating...");
                 MessageBox.Show("Course created.");
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
@@ -311,6 +378,9 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Update course in the database
+        /// </summary>
         private void UpdateCourse()
         {
             string courseId = txtCourseId.Text;
@@ -320,15 +390,10 @@ namespace StudentCourseHub
 
             int instructorId = Convert.ToInt32(cmbInstructors.SelectedValue);
 
-
-            // Enforce business rules
-
             string sqlUpdateCourse = $@"UPDATE Course
                                         SET CourseTitle = '{courseTitle}', Description = '{description}', 
                                             Campus = '{campus}', InstructorId = '{instructorId}'
                                         WHERE CourseId = {courseId}";
-
-            // how do you know if false data? eg description > 255 char ??
 
             int rowsAffected = DataAccess.ExecuteNonQuery(sqlUpdateCourse);
 
@@ -345,10 +410,15 @@ namespace StudentCourseHub
             }
         }
 
-
+        /// <summary>
+        /// Delete course from database
+        /// </summary>
         private void DeleteCourse()
         {
             int courseId = Convert.ToInt32(txtCourseId.Text);
+
+            string sqlDeleteFK = $@"DELETE FROM StudentCourseHub.dbo.StudentCourse WHERE CourseId = {courseId}";
+            DataAccess.ExecuteNonQuery(sqlDeleteFK);
 
             string sqlDeleteCourse = $@"DELETE FROM StudentCourseHub.dbo.Course WHERE CourseId = {courseId}";
 
@@ -356,6 +426,7 @@ namespace StudentCourseHub
 
             if (rowsAffected == 1)
             {
+                SetStatusStrip("Deleting...");
                 MessageBox.Show("Course deleted.");
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
@@ -372,40 +443,60 @@ namespace StudentCourseHub
 
         #region Navigation
 
+        /// <summary>
+        /// Manage next and previous button state
+        /// </summary>
         private void NextPreviousButtonManagement()
         {
             btnPrevious.Enabled = previousCourseId != null;
             btnNext.Enabled = nextCourseId != null;
         }
 
+        /// <summary>
+        /// Manage navigation between courses
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Navigation_Handler(object sender, EventArgs e)
         {
-            Button b = (Button)sender;
-
-            switch (b.Name)
+            try
             {
-                case "btnFirst":
-                    currentCourseId = firstCourseId;
-                    currentInstructorId = firstInstructorId;
-                    break;
-                case "btnLast":
-                    currentCourseId = lastCourseId;
-                    currentInstructorId = lastInstructorId;
-                    break;
-                case "btnPrevious":
-                    currentCourseId = previousCourseId.Value;
-                    currentInstructorId = previousInstructorId.Value;
-                    break;
-                case "btnNext":
-                    currentCourseId = nextCourseId.Value;
-                    currentInstructorId = nextInstructorId.Value;
-                    break;
+                Button b = (Button)sender;
+
+                switch (b.Name)
+                {
+                    case "btnFirst":
+                        currentCourseId = firstCourseId;
+                        currentInstructorId = firstInstructorId;
+                        break;
+                    case "btnLast":
+                        currentCourseId = lastCourseId;
+                        currentInstructorId = lastInstructorId;
+                        break;
+                    case "btnPrevious":
+                        currentCourseId = previousCourseId.Value;
+                        currentInstructorId = previousInstructorId.Value;
+                        break;
+                    case "btnNext":
+                        currentCourseId = nextCourseId.Value;
+                        currentInstructorId = nextInstructorId.Value;
+                        break;
+                }
+
+                LoadCourseDetails();
+                NextPreviousButtonManagement();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
 
-            LoadCourseDetails();
-            NextPreviousButtonManagement();
         }
 
+        /// <summary>
+        /// Manage navigation buttons state
+        /// </summary>
+        /// <param name="enableState"></param>
         private void NavigationState(bool enableState)
         {
             btnFirst.Enabled = enableState;
@@ -417,57 +508,92 @@ namespace StudentCourseHub
         #endregion
 
         #region Status
-
-        // add status strip to mdi 
-
-        //private void SetStatusStrip(string text, Color foreColor)
-        //{
-        //    toolStripStatusLabel1.Text = text;
-        //    toolStripStatusLabel1.ForeColor = foreColor;
-        //}
+        /// <summary>
+        /// Set MDI parent status strip
+        /// </summary>
+        /// <param name="text"></param>
+        private void SetStatusStrip(string text)
+        {
+            ((MDIHome)this.MdiParent).StatusStipLabel.Text = text;
+        }
 
         #endregion
 
         #region Validation
 
+        /// <summary>
+        /// Validates that all required comboboxes have a selected value
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmb_Validating(object sender, CancelEventArgs e)
         {
-            ComboBox cmb = (ComboBox)sender;
-            string cmbName = cmb.Tag.ToString();
-
-            string errMsg = null;
-            bool failedValidation = false;
-
-            if (cmb.SelectedIndex == -1 || cmb.SelectedIndex == 0)
+            try
             {
-                errMsg = $"{cmbName} is required";
-                failedValidation = true;
+                ComboBox cmb = (ComboBox)sender;
+                string cmbName = cmb.Tag.ToString();
+
+                string errMsg = null;
+                bool failedValidation = false;
+
+                if (cmb.SelectedIndex == -1 || cmb.SelectedIndex == 0)
+                {
+                    errMsg = $"{cmbName} is required";
+                    failedValidation = true;
+                }
+
+                e.Cancel = failedValidation;
+                errProvider.SetError(cmb, errMsg);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
 
-            e.Cancel = failedValidation;
-            errProvider.SetError(cmb, errMsg);
+
         }
 
+        /// <summary>
+        /// Validates that all required fields are not empty and do not exceed the length required by the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txt_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            TextBox txt = (TextBox)sender;
-            string txtBoxName = txt.Tag.ToString();
-            string errMsg = null;
-            bool failedValidation = false;
-
-            if (txt.Text == string.Empty)
+            try
             {
-                errMsg = $"{txtBoxName} is required";
-                failedValidation = true;
+                TextBox txt = (TextBox)sender;
+                string txtBoxName = txt.Tag.ToString();
+                string errMsg = null;
+                bool failedValidation = false;
+
+                if (txt.Text == string.Empty)
+                {
+                    errMsg = $"{txtBoxName} is required";
+                    failedValidation = true;
+                }
+                else if ((string)txt.Tag == "Description" && txtDescription.Text.Length > 255)
+                {
+                    errMsg = $"The course description cannot exceed 255 characters in length.";
+                    failedValidation = true;
+                }
+                else if ((string)txt.Tag == "CourseTitle" && txtCourseTitle.Text.Length > 30)
+                {
+                    errMsg = $"The course title cannot exceed 30 characters in length.";
+                    failedValidation = true;
+                }
+
+                e.Cancel = failedValidation;
+
+                errProvider.SetError(txt, errMsg);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
 
-            e.Cancel = failedValidation;
-
-            errProvider.SetError(txt, errMsg);
         }
-
         #endregion
-
 
     }
 }

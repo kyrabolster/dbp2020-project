@@ -31,6 +31,10 @@
             this.cmbCourses = new System.Windows.Forms.ComboBox();
             this.dgvClasslist = new System.Windows.Forms.DataGridView();
             this.grpClasslist = new System.Windows.Forms.GroupBox();
+            this.txtStudentId = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtPhone = new System.Windows.Forms.TextBox();
+            this.txtAddress = new System.Windows.Forms.TextBox();
             this.btnRemove = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.txtStudentName = new System.Windows.Forms.TextBox();
@@ -38,10 +42,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtAddress = new System.Windows.Forms.TextBox();
-            this.txtPhone = new System.Windows.Forms.TextBox();
-            this.txtStudentId = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.grpAddToClasslist = new System.Windows.Forms.GroupBox();
             this.txtStudentId2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -73,6 +73,7 @@
             // dgvClasslist
             // 
             this.dgvClasslist.AllowUserToAddRows = false;
+            this.dgvClasslist.BackgroundColor = System.Drawing.Color.White;
             this.dgvClasslist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClasslist.Location = new System.Drawing.Point(13, 23);
             this.dgvClasslist.Name = "dgvClasslist";
@@ -84,6 +85,7 @@
             // 
             // grpClasslist
             // 
+            this.grpClasslist.BackColor = System.Drawing.Color.White;
             this.grpClasslist.Controls.Add(this.txtStudentId);
             this.grpClasslist.Controls.Add(this.label4);
             this.grpClasslist.Controls.Add(this.txtPhone);
@@ -102,6 +104,47 @@
             this.grpClasslist.TabIndex = 2;
             this.grpClasslist.TabStop = false;
             this.grpClasslist.Text = "Classlist";
+            // 
+            // txtStudentId
+            // 
+            this.txtStudentId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtStudentId.Location = new System.Drawing.Point(880, 50);
+            this.txtStudentId.Margin = new System.Windows.Forms.Padding(4);
+            this.txtStudentId.Name = "txtStudentId";
+            this.txtStudentId.ReadOnly = true;
+            this.txtStudentId.Size = new System.Drawing.Size(234, 23);
+            this.txtStudentId.TabIndex = 59;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(796, 50);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(76, 17);
+            this.label4.TabIndex = 58;
+            this.label4.Text = "Student Id:";
+            // 
+            // txtPhone
+            // 
+            this.txtPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPhone.Location = new System.Drawing.Point(880, 141);
+            this.txtPhone.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPhone.Name = "txtPhone";
+            this.txtPhone.ReadOnly = true;
+            this.txtPhone.Size = new System.Drawing.Size(234, 23);
+            this.txtPhone.TabIndex = 57;
+            this.txtPhone.Tag = "CourseTitle";
+            // 
+            // txtAddress
+            // 
+            this.txtAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAddress.Location = new System.Drawing.Point(880, 171);
+            this.txtAddress.Margin = new System.Windows.Forms.Padding(4);
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.ReadOnly = true;
+            this.txtAddress.Size = new System.Drawing.Size(234, 23);
+            this.txtAddress.TabIndex = 56;
             // 
             // btnRemove
             // 
@@ -177,49 +220,9 @@
             this.label2.TabIndex = 45;
             this.label2.Text = "Email:";
             // 
-            // txtAddress
-            // 
-            this.txtAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAddress.Location = new System.Drawing.Point(880, 171);
-            this.txtAddress.Margin = new System.Windows.Forms.Padding(4);
-            this.txtAddress.Name = "txtAddress";
-            this.txtAddress.ReadOnly = true;
-            this.txtAddress.Size = new System.Drawing.Size(234, 23);
-            this.txtAddress.TabIndex = 56;
-            // 
-            // txtPhone
-            // 
-            this.txtPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPhone.Location = new System.Drawing.Point(880, 141);
-            this.txtPhone.Margin = new System.Windows.Forms.Padding(4);
-            this.txtPhone.Name = "txtPhone";
-            this.txtPhone.ReadOnly = true;
-            this.txtPhone.Size = new System.Drawing.Size(234, 23);
-            this.txtPhone.TabIndex = 57;
-            this.txtPhone.Tag = "CourseTitle";
-            // 
-            // txtStudentId
-            // 
-            this.txtStudentId.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtStudentId.Location = new System.Drawing.Point(880, 50);
-            this.txtStudentId.Margin = new System.Windows.Forms.Padding(4);
-            this.txtStudentId.Name = "txtStudentId";
-            this.txtStudentId.ReadOnly = true;
-            this.txtStudentId.Size = new System.Drawing.Size(234, 23);
-            this.txtStudentId.TabIndex = 59;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(796, 50);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 17);
-            this.label4.TabIndex = 58;
-            this.label4.Text = "Student Id:";
-            // 
             // grpAddToClasslist
             // 
+            this.grpAddToClasslist.BackColor = System.Drawing.Color.White;
             this.grpAddToClasslist.Controls.Add(this.txtStudentId2);
             this.grpAddToClasslist.Controls.Add(this.label6);
             this.grpAddToClasslist.Controls.Add(this.txtPhone2);
@@ -234,7 +237,7 @@
             this.grpAddToClasslist.Controls.Add(this.dgvAllStudents);
             this.grpAddToClasslist.Location = new System.Drawing.Point(26, 410);
             this.grpAddToClasslist.Name = "grpAddToClasslist";
-            this.grpAddToClasslist.Size = new System.Drawing.Size(1138, 328);
+            this.grpAddToClasslist.Size = new System.Drawing.Size(1138, 374);
             this.grpAddToClasslist.TabIndex = 3;
             this.grpAddToClasslist.TabStop = false;
             this.grpAddToClasslist.Text = "Add Students to Classlist";
@@ -357,12 +360,13 @@
             // dgvAllStudents
             // 
             this.dgvAllStudents.AllowUserToAddRows = false;
+            this.dgvAllStudents.BackgroundColor = System.Drawing.Color.White;
             this.dgvAllStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAllStudents.Location = new System.Drawing.Point(13, 23);
             this.dgvAllStudents.Name = "dgvAllStudents";
             this.dgvAllStudents.RowHeadersWidth = 51;
             this.dgvAllStudents.RowTemplate.Height = 24;
-            this.dgvAllStudents.Size = new System.Drawing.Size(762, 274);
+            this.dgvAllStudents.Size = new System.Drawing.Size(776, 323);
             this.dgvAllStudents.TabIndex = 1;
             this.dgvAllStudents.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAllStudents_CellClick);
             // 
@@ -370,13 +374,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1193, 750);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(181)))), ((int)(((byte)(245)))));
+            this.ClientSize = new System.Drawing.Size(1193, 796);
             this.Controls.Add(this.grpAddToClasslist);
             this.Controls.Add(this.grpClasslist);
             this.Controls.Add(this.cmbCourses);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "frmClasslist";
-            this.Text = "ViewCourseStudents";
-            this.Load += new System.EventHandler(this.ViewCourseStudents_Load);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Classlist";
+            this.Load += new System.EventHandler(this.Classlist_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvClasslist)).EndInit();
             this.grpClasslist.ResumeLayout(false);
             this.grpClasslist.PerformLayout();

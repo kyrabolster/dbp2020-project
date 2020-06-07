@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+/* 
+* Kyra Bolster
+*  Database Programming - Final Project
+*  June 7, 2020
+*/
 
 namespace StudentCourseHub
 {
@@ -24,16 +31,24 @@ namespace StudentCourseHub
         int lastInstructorId = 0;
         int? previousInstructorId;
         int? nextInstructorId;
-
-
         #endregion
 
         #region Events
+
+        /// <summary>
+        /// Load and setup Instructors form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Instructors_Load(object sender, EventArgs e)
         {
             try
             {
                 LoadFirstInstructor();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
             }
             catch (Exception ex)
             {
@@ -50,6 +65,9 @@ namespace StudentCourseHub
         #endregion
 
         #region Retrieves
+        /// <summary>
+        /// Load first instructor
+        /// </summary>
         private void LoadFirstInstructor()
         {
             try
@@ -66,12 +84,19 @@ namespace StudentCourseHub
                     NextPreviousButtonManagement();
                 }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
         }
 
+        /// <summary>
+        /// Load and display instructor details
+        /// </summary>
         private void LoadInstructorDetails()
         {
 
@@ -119,6 +144,7 @@ namespace StudentCourseHub
                     nextInstructorId = ds.Tables[1].Rows[0]["NextInstructorId"] != DBNull.Value ? Convert.ToInt32(ds.Tables["Table1"].Rows[0]["NextInstructorId"]) : (int?)null;
                     lastInstructorId = Convert.ToInt32(ds.Tables[1].Rows[0]["LastInstructorId"]);
 
+                    SetStatusStrip($"Viewing instructor id: {currentInstructorId}");
                 }
                 else
                 {
@@ -134,45 +160,67 @@ namespace StudentCourseHub
 
         #endregion
 
-
         #region Navigation
 
+        /// <summary>
+        /// Manage button state
+        /// </summary>
         private void NextPreviousButtonManagement()
         {
             btnPrevious.Enabled = previousInstructorId != null;
             btnNext.Enabled = nextInstructorId != null;
         }
 
+        /// <summary>
+        /// Manage navigation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Navigation_Handler(object sender, EventArgs e)
         {
-            Button b = (Button)sender;
-
-            switch (b.Name)
+            try
             {
-                case "btnFirst":
-                    currentInstructorId = firstInstructorId;
-                    break;
-                case "btnLast":
-                    currentInstructorId = lastInstructorId;
-                    break;
-                case "btnPrevious":
-                    currentInstructorId = previousInstructorId.Value;
-                    break;
-                case "btnNext":
-                    currentInstructorId = nextInstructorId.Value;
-                    break;
-            }
+                Button b = (Button)sender;
 
-            LoadInstructorDetails();
-            NextPreviousButtonManagement();
+                switch (b.Name)
+                {
+                    case "btnFirst":
+                        currentInstructorId = firstInstructorId;
+                        break;
+                    case "btnLast":
+                        currentInstructorId = lastInstructorId;
+                        break;
+                    case "btnPrevious":
+                        currentInstructorId = previousInstructorId.Value;
+                        break;
+                    case "btnNext":
+                        currentInstructorId = nextInstructorId.Value;
+                        break;
+                }
+
+                LoadInstructorDetails();
+                NextPreviousButtonManagement();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
 
-        private void NavigationState(bool enableState)
+        #endregion
+
+        #region Status
+        /// <summary>
+        /// Set MDI parent status strip
+        /// </summary>
+        /// <param name="text"></param>
+        private void SetStatusStrip(string text)
         {
-            btnFirst.Enabled = enableState;
-            btnLast.Enabled = enableState;
-            btnNext.Enabled = enableState;
-            btnPrevious.Enabled = enableState;
+            ((MDIHome)this.MdiParent).StatusStipLabel.Text = text;
         }
 
         #endregion

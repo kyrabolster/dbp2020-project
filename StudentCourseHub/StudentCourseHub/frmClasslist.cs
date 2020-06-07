@@ -25,7 +25,12 @@ namespace StudentCourseHub
         }
 
         #region Events
-        private void ViewCourseStudents_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Load and setup Classlist form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Classlist_Load(object sender, EventArgs e)
         {
             try
             {
@@ -39,6 +44,11 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Select course from courses combobox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbCourses_SelectionChangeCommitted(object sender, EventArgs e)
         {
             try
@@ -51,81 +61,144 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Select student from course's classlist 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvStudents_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int StudentId = Convert.ToInt32(dgvClasslist.CurrentRow.Cells[0].Value);
+            try
+            {
+                int StudentId = Convert.ToInt32(dgvClasslist.CurrentRow.Cells[0].Value);
 
-            string sql = $@"SELECT * FROM Student
+                string sql = $@"SELECT * FROM Student
                             WHERE StudentID = {StudentId}";
 
-            DataTable dt = DataAccess.GetData(sql);
+                DataTable dt = DataAccess.GetData(sql);
 
-            if (dt.Rows.Count > 0)
-            {
-                txtStudentId.Text = dt.Rows[0]["StudentId"].ToString();
-                txtStudentName.Text = dt.Rows[0]["FirstName"].ToString() + " " + dt.Rows[0]["MiddleName"].ToString()
-                                       + " " + dt.Rows[0]["LastName"].ToString();
-                txtEmail.Text = dt.Rows[0]["Email"].ToString();
-                txtPhone.Text = dt.Rows[0]["Phone"].ToString();
-                txtAddress.Text = dt.Rows[0]["Address"].ToString();
+                if (dt.Rows.Count > 0)
+                {
+                    txtStudentId.Text = dt.Rows[0]["StudentId"].ToString();
+                    txtStudentName.Text = dt.Rows[0]["FirstName"].ToString() + " " + dt.Rows[0]["MiddleName"].ToString()
+                                           + " " + dt.Rows[0]["LastName"].ToString();
+                    txtEmail.Text = dt.Rows[0]["Email"].ToString();
+                    txtPhone.Text = dt.Rows[0]["Phone"].ToString();
+                    txtAddress.Text = dt.Rows[0]["Address"].ToString();
 
+                }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
+
         }
 
+        /// <summary>
+        /// Select student from list of all students in database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvAllStudents_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int StudentId = Convert.ToInt32(dgvAllStudents.CurrentRow.Cells[0].Value);
-
-            string sql = $@"SELECT * FROM Student WHERE StudentID = {StudentId}";
-
-            DataTable dt = DataAccess.GetData(sql);
-
-            if (dt.Rows.Count > 0)
+            try
             {
-                txtStudentId2.Text = dt.Rows[0]["StudentId"].ToString();
-                txtStudentName2.Text = dt.Rows[0]["FirstName"].ToString() + " " + dt.Rows[0]["MiddleName"].ToString()
-                                       + " " + dt.Rows[0]["LastName"].ToString();
-                txtEmail2.Text = dt.Rows[0]["Email"].ToString();
-                txtPhone2.Text = dt.Rows[0]["Phone"].ToString();
-                txtAddress2.Text = dt.Rows[0]["Address"].ToString();
+                int StudentId = Convert.ToInt32(dgvAllStudents.CurrentRow.Cells[0].Value);
 
+                string sql = $@"SELECT * FROM Student WHERE StudentID = {StudentId}";
+
+                DataTable dt = DataAccess.GetData(sql);
+
+                if (dt.Rows.Count > 0)
+                {
+                    txtStudentId2.Text = dt.Rows[0]["StudentId"].ToString();
+                    txtStudentName2.Text = dt.Rows[0]["FirstName"].ToString() + " " + dt.Rows[0]["MiddleName"].ToString()
+                                           + " " + dt.Rows[0]["LastName"].ToString();
+                    txtEmail2.Text = dt.Rows[0]["Email"].ToString();
+                    txtPhone2.Text = dt.Rows[0]["Phone"].ToString();
+                    txtAddress2.Text = dt.Rows[0]["Address"].ToString();
+
+                }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
+
         }
 
+        /// <summary>
+        /// Remove student from selected class
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            if (cmbCourses.SelectedIndex == 0)
+            try
             {
-                MessageBox.Show("Please select a course.");
-                return;
-            }
+                if (cmbCourses.SelectedIndex == 0)
+                {
+                    MessageBox.Show("Please select a course.");
+                    return;
+                }
 
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want remove this student from the course?", "Are you sure?", MessageBoxButtons.YesNo);
+                if (txtStudentId.Text == "")
+                {
+                    MessageBox.Show("Please select a student to remove.");
+                    return;
+                }
 
-            if (dialogResult == DialogResult.Yes)
-            {
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want remove this student from the course?", "Are you sure?", MessageBoxButtons.YesNo);
 
-                int studentId = Convert.ToInt32(txtStudentId.Text);
-                int courseId = Convert.ToInt32(cmbCourses.SelectedValue);
+                if (dialogResult == DialogResult.Yes)
+                {
 
-                string sqlDropStudent = $@"DELETE FROM StudentCourse
+                    int studentId = Convert.ToInt32(txtStudentId.Text);
+                    int courseId = Convert.ToInt32(cmbCourses.SelectedValue);
+
+                    string sqlDropStudent = $@"DELETE FROM StudentCourse
 	                                        WHERE StudentId = {studentId} AND CourseId = {courseId};";
 
-                int rowsAffected = DataAccess.ExecuteNonQuery(sqlDropStudent);
+                    int rowsAffected = DataAccess.ExecuteNonQuery(sqlDropStudent);
 
-                if (rowsAffected == 1)
-                {
-                    MessageBox.Show("Student removed from class.");
-                    LoadClasslist();
+                    if (rowsAffected == 1)
+                    {
+                        SetStatusStrip("Removing student from classlist...");
+                        MessageBox.Show("Student removed from class.");
+                        LoadClasslist();
 
-                }
-                else
-                {
-                    MessageBox.Show("The database did not report the correct number of rows affected.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("The database did not report the correct number of rows affected.");
+                    }
                 }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
+
         }
 
+        /// <summary>
+        /// Add student to selected classlist
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -136,8 +209,23 @@ namespace StudentCourseHub
                     return;
                 }
 
+                if (txtStudentId2.Text == "")
+                {
+                    MessageBox.Show("Please select a student to add to classlist.");
+                    return;
+                }
+
                 int courseId = Convert.ToInt32(cmbCourses.SelectedValue);
                 int studentId = Convert.ToInt32(txtStudentId2.Text);
+
+                int studentCount = Convert.ToInt32(DataAccess.GetValue(
+                                                    $"SELECT COUNT(StudentId) FROM StudentCourse WHERE CourseId = {courseId}"));
+
+                if (studentCount == 30)
+                {
+                    MessageBox.Show("Classlist cannot have more than 30 enrolled students.");
+                    return;
+                }
 
                 string sqlEnroll = $@"INSERT INTO StudentCourse (StudentId, CourseId) VALUES({studentId}, {courseId})";
 
@@ -145,6 +233,7 @@ namespace StudentCourseHub
 
                 if (rowsAffected == 1)
                 {
+                    SetStatusStrip("Adding student to classlist...");
                     MessageBox.Show("Student successfully added to classlist.");
                     LoadClasslist();
 
@@ -167,12 +256,21 @@ namespace StudentCourseHub
         #endregion
 
         #region Retrieves
+
+        /// <summary>
+        /// Load list of all courses to combobox
+        /// </summary>
         private void LoadCourses()
         {
             string sqlCourses = "SELECT CourseID, CourseTitle FROM Course ORDER BY CourseTitle";
             UIUtilities.BindComboBox(cmbCourses, DataAccess.GetData(sqlCourses), "CourseTitle", "CourseID");
+
+            SetStatusStrip("");
         }
 
+        /// <summary>
+        /// Load classlist for selected course
+        /// </summary>
         private void LoadClasslist()
         {
             if (cmbCourses.SelectedIndex != 0)
@@ -189,26 +287,31 @@ namespace StudentCourseHub
                     );
 
                 dgvClasslist.DataSource = dt;
-
                 dgvClasslist.ReadOnly = true;
                 dgvClasslist.AutoResizeColumns();
+                dgvClasslist.CurrentCell.Selected = false;
+                dgvAllStudents.CurrentCell.Selected = false;
+
+                SetStatusStrip($"Classlist for course id: {cmbCourses.SelectedValue}");
             }
             else
             {
                 UIUtilities.ClearControls(grpClasslist.Controls);
                 dgvClasslist.DataSource = null;
+                SetStatusStrip("");
             }
         }
 
+        /// <summary>
+        /// Load list of all students in database
+        /// </summary>
         private void LoadStudentList()
         {
             DataTable dt = DataAccess.GetData(
-                    $@"SELECT DISTINCT Student.StudentID, Student.LastName, Student.FirstName, 
-                                        Student.LastName + ', ' + Student.FirstName AS [Student Name], Student.Email
-                                 FROM Student
-	                                INNER JOIN StudentCourse
-		                                ON Student.StudentId = StudentCourse.StudentId
-	                                ORDER BY LastName"
+                    $@"SELECT Student.StudentID, Student.LastName, Student.FirstName, 
+                              Student.LastName + ', ' + Student.FirstName AS [Student Name], Student.Email
+                       FROM Student
+	                   ORDER BY LastName"
                 );
 
             dgvAllStudents.DataSource = dt;
@@ -216,9 +319,18 @@ namespace StudentCourseHub
             dgvAllStudents.ReadOnly = true;
             dgvAllStudents.AutoResizeColumns();
         }
-
         #endregion
 
+        /// <summary>
+        /// Set MDI parent status strip
+        /// </summary>
+        /// <param name="text"></param>
+        #region Status Strip
+        private void SetStatusStrip(string text)
+        {
+            ((MDIHome)this.MdiParent).StatusStipLabel.Text = text;
+        }
+        #endregion
 
     }
 }

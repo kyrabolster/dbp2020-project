@@ -32,15 +32,23 @@ namespace StudentCourseHub
         int? previousStudentId;
         int? nextStudentId;
 
-
         #endregion
 
         #region Events
+        /// <summary>
+        /// Load and setup Students form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Students_Load(object sender, EventArgs e)
         {
             try
             {
                 LoadFirstStudent();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
             }
             catch (Exception ex)
             {
@@ -48,6 +56,11 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Change form display to add a student
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -60,6 +73,7 @@ namespace StudentCourseHub
                 btnSave.Enabled = false;
 
                 NavigationState(false);
+                SetStatusStrip("Press 'Create' to add student...");
             }
             catch (Exception ex)
             {
@@ -67,16 +81,39 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Delete student button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this student record from the database?", "Are you sure?", MessageBoxButtons.YesNo);
-
-            if (dialogResult == DialogResult.Yes)
+            try
             {
-                DeleteStudent();
+                DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this student record from the database?" +
+                    "\r\nThey will be removed from all classlists.", "Are you sure?", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    DeleteStudent();
+                }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
+
         }
 
+        /// <summary>
+        /// Create student button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCreate_Click(object sender, EventArgs e)
         {
             try
@@ -86,7 +123,6 @@ namespace StudentCourseHub
                     CreateStudent();
                 }
             }
-            // add more sqlExceptions throughout
             catch (SqlException ex)
             {
                 MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
@@ -97,13 +133,18 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Save changes button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
                 if (ValidateChildren(ValidationConstraints.Enabled))
                 {
-                    DialogResult dialogResult = MessageBox.Show("Are you sure you want to modify this student record in the database?", 
+                    DialogResult dialogResult = MessageBox.Show("Are you sure you want to modify this student record in the database?",
                                                                 "Are you sure?", MessageBoxButtons.YesNo);
 
                     if (dialogResult == DialogResult.Yes)
@@ -116,7 +157,6 @@ namespace StudentCourseHub
                     }
                 }
             }
-            // add more sqlExceptions throughout
             catch (SqlException ex)
             {
                 MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
@@ -127,16 +167,32 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Cancel actions and reset form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            LoadStudentDetails();
-            btnAdd.Enabled = true;
-            btnAdd.Enabled = true;
-            btnDelete.Enabled = true;
-            btnSave.Enabled = true;
+            try
+            {
+                LoadStudentDetails();
+                btnAdd.Enabled = true;
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+                btnSave.Enabled = true;
 
-            NavigationState(true);
-            NextPreviousButtonManagement();
+                NavigationState(true);
+                NextPreviousButtonManagement();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
 
         private void Students_FormClosing(object sender, FormClosingEventArgs e)
@@ -147,6 +203,9 @@ namespace StudentCourseHub
         #endregion
 
         #region Retrieves
+        /// <summary>
+        /// Load first student
+        /// </summary>
         private void LoadFirstStudent()
         {
             try
@@ -163,12 +222,19 @@ namespace StudentCourseHub
                     NextPreviousButtonManagement();
                 }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
         }
 
+        /// <summary>
+        /// Load and display student details
+        /// </summary>
         private void LoadStudentDetails()
         {
             errProvider.Clear();
@@ -221,6 +287,7 @@ namespace StudentCourseHub
                     nextStudentId = ds.Tables[1].Rows[0]["NextStudentId"] != DBNull.Value ? Convert.ToInt32(ds.Tables["Table1"].Rows[0]["NextStudentId"]) : (int?)null;
                     lastStudentId = Convert.ToInt32(ds.Tables[1].Rows[0]["LastStudentId"]);
 
+                    SetStatusStrip($"Viewing student id: {currentStudentId}");
                 }
                 else
                 {
@@ -237,6 +304,9 @@ namespace StudentCourseHub
         #endregion
 
         #region NonQuery
+        /// <summary>
+        /// Insert student into database
+        /// </summary>
         private void CreateStudent()
         {
             string firstName = txtFirstName.Text;
@@ -246,20 +316,14 @@ namespace StudentCourseHub
             string email = txtEmail.Text;
             string phone = txtPhone.Text;
 
-
-
-            // Enforce business rules
-
-
             string sqlInsertStudent = $@"INSERT INTO Student (FirstName, MiddleName, LastName, Address, Phone, Email) 
                                                 VALUES('{firstName}', '{middleName}', '{lastName}', '{address}', '{email}', '{phone}')";
-
-            // how do you know if false data? eg description > 255 char ??
 
             int rowsAffected = DataAccess.ExecuteNonQuery(sqlInsertStudent);
 
             if (rowsAffected == 1)
             {
+                SetStatusStrip("Creating...");
                 MessageBox.Show("Student created.");
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
@@ -273,6 +337,9 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Update student in the database
+        /// </summary>
         private void UpdateStudent()
         {
             string studentId = txtStudentId.Text;
@@ -283,14 +350,10 @@ namespace StudentCourseHub
             string email = txtEmail.Text;
             string phone = txtPhone.Text;
 
-            // Enforce business rules
-
             string sqlUpdateStudent = $@"UPDATE Student
                                         SET FirstName = '{firstName}', MiddleName = '{middleName}', LastName = '{lastName}', 
                                             Address = '{address}', Email = '{email}', Phone = '{phone}'
                                         WHERE StudentId = {studentId}";
-
-            // how do you know if false data? eg description > 255 char ??
 
             int rowsAffected = DataAccess.ExecuteNonQuery(sqlUpdateStudent);
 
@@ -299,7 +362,6 @@ namespace StudentCourseHub
                 MessageBox.Show("Student record updated.");
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
-
             }
             else
             {
@@ -307,9 +369,15 @@ namespace StudentCourseHub
             }
         }
 
+        /// <summary>
+        /// Delete student from the database
+        /// </summary>
         private void DeleteStudent()
         {
             int studentId = Convert.ToInt32(txtStudentId.Text);
+
+            string sqlDeleteFK = $@"DELETE FROM StudentCourseHub.dbo.StudentCourse WHERE StudentId = {studentId}";
+            DataAccess.ExecuteNonQuery(sqlDeleteFK);
 
             string sqlDeleteStudent = $@"DELETE FROM StudentCourseHub.dbo.Student WHERE StudentId = {studentId}";
 
@@ -317,6 +385,7 @@ namespace StudentCourseHub
 
             if (rowsAffected == 1)
             {
+                SetStatusStrip("Deleting...");
                 MessageBox.Show("Student deleted.");
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
@@ -331,37 +400,59 @@ namespace StudentCourseHub
         #endregion
 
         #region Navigation
-
+        /// <summary>
+        /// Manage next and previous button state
+        /// </summary>
         private void NextPreviousButtonManagement()
         {
             btnPrevious.Enabled = previousStudentId != null;
             btnNext.Enabled = nextStudentId != null;
         }
 
+        /// <summary>
+        /// Manage navigation between students
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Navigation_Handler(object sender, EventArgs e)
         {
-            Button b = (Button)sender;
-
-            switch (b.Name)
+            try
             {
-                case "btnFirst":
-                    currentStudentId = firstStudentId;
-                    break;
-                case "btnLast":
-                    currentStudentId = lastStudentId;
-                    break;
-                case "btnPrevious":
-                    currentStudentId = previousStudentId.Value;
-                    break;
-                case "btnNext":
-                    currentStudentId = nextStudentId.Value;
-                    break;
-            }
+                Button b = (Button)sender;
 
-            LoadStudentDetails();
-            NextPreviousButtonManagement();
+                switch (b.Name)
+                {
+                    case "btnFirst":
+                        currentStudentId = firstStudentId;
+                        break;
+                    case "btnLast":
+                        currentStudentId = lastStudentId;
+                        break;
+                    case "btnPrevious":
+                        currentStudentId = previousStudentId.Value;
+                        break;
+                    case "btnNext":
+                        currentStudentId = nextStudentId.Value;
+                        break;
+                }
+
+                LoadStudentDetails();
+                NextPreviousButtonManagement();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
 
+        /// <summary>
+        /// Manage navigation buttons state
+        /// </summary>
+        /// <param name="enableState"></param>
         private void NavigationState(bool enableState)
         {
             btnFirst.Enabled = enableState;
@@ -372,10 +463,26 @@ namespace StudentCourseHub
 
         #endregion
 
-        // add status strip
+        #region Status
+
+        /// <summary>
+        /// Set MDI parent status strip
+        /// </summary>
+        /// <param name="text"></param>
+        private void SetStatusStrip(string text)
+        {
+            ((MDIHome)this.MdiParent).StatusStipLabel.Text = text;
+        }
+
+        #endregion
 
         #region Validation
 
+        /// <summary>
+        /// Validates that all required fields are not empty and do not exceed the length required by the database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txt_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             TextBox txt = (TextBox)sender;
@@ -388,7 +495,25 @@ namespace StudentCourseHub
                 errMsg = $"{txtBoxName} is required";
                 failedValidation = true;
             }
-
+            else if (
+                        ((string)txt.Tag == "StudentName" && txtFirstName.Text.Length > 30) ||
+                        ((string)txt.Tag == "MiddleName" && txtMiddleName.Text.Length > 30) ||
+                        ((string)txt.Tag == "LastName" && txtLastName.Text.Length > 30)
+                    )
+            {
+                errMsg = $"Name cannot exceed 30 characters in length.";
+                failedValidation = true;
+            }
+            else if ((string)txt.Tag == "Email" && txtEmail.Text.Length > 30)
+            {
+                errMsg = $"Email cannot exceed 30 characters in length.";
+                failedValidation = true;
+            }
+            else if ((string)txt.Tag == "Address" && txtEmail.Text.Length > 250)
+            {
+                errMsg = $"Address cannot exceed 250 characters in length.";
+                failedValidation = true;
+            }
             e.Cancel = failedValidation;
 
             errProvider.SetError(txt, errMsg);
