@@ -18,9 +18,9 @@ using System.Windows.Forms;
 
 namespace StudentCourseHub
 {
-    public partial class Courses : Form
+    public partial class frmCourses : Form
     {
-        public Courses()
+        public frmCourses()
         {
             InitializeComponent();
         }
@@ -63,9 +63,11 @@ namespace StudentCourseHub
             {
                 UIUtilities.ClearControls(this.grpCourses.Controls);
 
-                btnSave.Text = "Create";
+                btnCreate.Enabled = true;
                 btnAdd.Enabled = false;
                 btnDelete.Enabled = false;
+                btnSave.Enabled = false;
+
 
                 NavigationState(false);
             }
@@ -91,6 +93,35 @@ namespace StudentCourseHub
             {
                 if (ValidateChildren(ValidationConstraints.Enabled))
                 {
+                    DialogResult dialogResult = MessageBox.Show("Are you sure you want to modify this course in the database?", "Are you sure?", MessageBoxButtons.YesNo);
+
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        UpdateCourse();
+                    }
+                    else
+                    {
+                        LoadCourseDetails();
+                    }
+                }
+            }
+            // add more sqlExceptions throughout
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
+        }
+
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateChildren(ValidationConstraints.Enabled))
+                {
                     CreateCourse();
                 }
             }
@@ -111,6 +142,7 @@ namespace StudentCourseHub
             btnAdd.Enabled = true;
             btnAdd.Enabled = true;
             btnDelete.Enabled = true;
+            btnSave.Enabled = true;
 
             NavigationState(true);
             NextPreviousButtonManagement();
@@ -168,6 +200,7 @@ namespace StudentCourseHub
 
         private void LoadCourseDetails()
         {
+            //necessary?
             errProvider.Clear();
 
             string[] sqlStatements = new string[]
@@ -218,20 +251,7 @@ namespace StudentCourseHub
                     txtCourseTitle.Text = selectedCourse["CourseTitle"].ToString();
                     txtDescription.Text = selectedCourse["Description"].ToString();
                     cmbInstructors.SelectedValue = selectedCourse["InstructorId"];
-
-                    // better way?
-                    if (selectedCourse["Campus"].ToString() == "Fredericton")
-                        cmbCampus.SelectedIndex = 1;
-                    else if (selectedCourse["Campus"].ToString() == "Miramichi")
-                        cmbCampus.SelectedIndex = 2;
-                    else if (selectedCourse["Campus"].ToString() == "Moncton")
-                        cmbCampus.SelectedIndex = 3;
-                    else if (selectedCourse["Campus"].ToString() == "Saint John")
-                        cmbCampus.SelectedIndex = 4;
-                    else if (selectedCourse["Campus"].ToString() == "St. Andrews")
-                        cmbCampus.SelectedIndex = 5;
-                    else
-                        cmbCampus.SelectedIndex = 0;
+                    cmbCampus.SelectedItem = selectedCourse["Campus"].ToString();
 
                     firstCourseId = Convert.ToInt32(ds.Tables[1].Rows[0]["FirstCourseId"]);
                     previousCourseId = ds.Tables[1].Rows[0]["PreviousCourseId"] != DBNull.Value ? Convert.ToInt32(ds.Tables["Table1"].Rows[0]["PreviousCourseId"]) : (int?)null;
@@ -263,14 +283,11 @@ namespace StudentCourseHub
             string courseTitle = txtCourseTitle.Text;
             string description = txtDescription.Text;
             string campus = cmbCampus.SelectedItem.ToString();
-            //string campus;
+
             int instructorId = Convert.ToInt32(cmbInstructors.SelectedValue);
 
 
             // Enforce business rules
-            // courses cannot have more than 1 instructor... dont really need to enforce that..?
-            // maybe come up with a new business rule
-            // idea: no duplicate courses ?
 
             string sqlInsertCourse = $@"INSERT INTO Course (CourseTitle, Description, Campus, InstructorId) 
                                                 VALUES('{courseTitle}', '{description}', '{campus}', {instructorId})";
@@ -284,6 +301,8 @@ namespace StudentCourseHub
                 MessageBox.Show("Course created.");
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
+                btnCreate.Enabled = false;
+                btnSave.Enabled = true;
                 LoadFirstCourse();
             }
             else
@@ -291,6 +310,41 @@ namespace StudentCourseHub
                 MessageBox.Show("The database did not report the correct number of rows affected.");
             }
         }
+
+        private void UpdateCourse()
+        {
+            string courseId = txtCourseId.Text;
+            string courseTitle = txtCourseTitle.Text;
+            string description = txtDescription.Text;
+            string campus = cmbCampus.SelectedItem.ToString();
+
+            int instructorId = Convert.ToInt32(cmbInstructors.SelectedValue);
+
+
+            // Enforce business rules
+
+            string sqlUpdateCourse = $@"UPDATE Course
+                                        SET CourseTitle = '{courseTitle}', Description = '{description}', 
+                                            Campus = '{campus}', InstructorId = '{instructorId}'
+                                        WHERE CourseId = {courseId}";
+
+            // how do you know if false data? eg description > 255 char ??
+
+            int rowsAffected = DataAccess.ExecuteNonQuery(sqlUpdateCourse);
+
+            if (rowsAffected == 1)
+            {
+                MessageBox.Show("Course updated.");
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+
+            }
+            else
+            {
+                MessageBox.Show("The database did not report the correct number of rows affected.");
+            }
+        }
+
 
         private void DeleteCourse()
         {
@@ -413,6 +467,7 @@ namespace StudentCourseHub
         }
 
         #endregion
+
 
     }
 }

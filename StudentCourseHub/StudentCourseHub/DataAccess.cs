@@ -112,5 +112,24 @@ namespace StudentCourseHub
         {
             return sqlStatement.Replace(Environment.NewLine, "");
         }
+
+        /// <summary>
+        /// returns the first value of the result set
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public static object ExecuteScalar(string sql)
+        {
+            object returnValue;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                conn.Open();
+                returnValue = cmd.ExecuteScalar();
+            }
+            return returnValue;
+        }
     }
 }

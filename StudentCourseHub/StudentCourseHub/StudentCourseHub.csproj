@@ -47,30 +47,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Courses.cs">
+    <Compile Include="frmCourses.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Courses.Designer.cs">
-      <DependentUpon>Courses.cs</DependentUpon>
+    <Compile Include="frmCourses.Designer.cs">
+      <DependentUpon>frmCourses.cs</DependentUpon>
     </Compile>
     <Compile Include="DataAccess.cs" />
-    <Compile Include="HomePage.cs">
+    <Compile Include="frmInstructors.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HomePage.Designer.cs">
-      <DependentUpon>HomePage.cs</DependentUpon>
+    <Compile Include="frmInstructors.Designer.cs">
+      <DependentUpon>frmInstructors.cs</DependentUpon>
     </Compile>
-    <Compile Include="Instructors.cs">
+    <Compile Include="HomeLanding.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Instructors.Designer.cs">
-      <DependentUpon>Instructors.cs</DependentUpon>
+    <Compile Include="HomeLanding.Designer.cs">
+      <DependentUpon>HomeLanding.cs</DependentUpon>
     </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MDIHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MDIHome.Designer.cs">
+      <DependentUpon>MDIHome.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,36 +86,39 @@
     <Compile Include="Splash.Designer.cs">
       <DependentUpon>Splash.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewStudentCourses.cs">
+    <Compile Include="frmCourseSelect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewStudentCourses.Designer.cs">
-      <DependentUpon>ViewStudentCourses.cs</DependentUpon>
+    <Compile Include="frmCourseSelect.Designer.cs">
+      <DependentUpon>frmCourseSelect.cs</DependentUpon>
     </Compile>
-    <Compile Include="Students.cs">
+    <Compile Include="frmStudents.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Students.Designer.cs">
-      <DependentUpon>Students.cs</DependentUpon>
+    <Compile Include="frmStudents.Designer.cs">
+      <DependentUpon>frmStudents.cs</DependentUpon>
     </Compile>
     <Compile Include="UIUtilities.cs" />
-    <Compile Include="ViewCourseStudents.cs">
+    <Compile Include="frmClasslist.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewCourseStudents.Designer.cs">
-      <DependentUpon>ViewCourseStudents.cs</DependentUpon>
+    <Compile Include="frmClasslist.Designer.cs">
+      <DependentUpon>frmClasslist.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Courses.resx">
-      <DependentUpon>Courses.cs</DependentUpon>
+    <EmbeddedResource Include="frmCourses.resx">
+      <DependentUpon>frmCourses.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HomePage.resx">
-      <DependentUpon>HomePage.cs</DependentUpon>
+    <EmbeddedResource Include="frmInstructors.resx">
+      <DependentUpon>frmInstructors.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Instructors.resx">
-      <DependentUpon>Instructors.cs</DependentUpon>
+    <EmbeddedResource Include="HomeLanding.resx">
+      <DependentUpon>HomeLanding.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MDIHome.resx">
+      <DependentUpon>MDIHome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -124,14 +133,14 @@
     <EmbeddedResource Include="Splash.resx">
       <DependentUpon>Splash.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Students.resx">
-      <DependentUpon>Students.cs</DependentUpon>
+    <EmbeddedResource Include="frmStudents.resx">
+      <DependentUpon>frmStudents.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewCourseStudents.resx">
-      <DependentUpon>ViewCourseStudents.cs</DependentUpon>
+    <EmbeddedResource Include="frmClasslist.resx">
+      <DependentUpon>frmClasslist.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewStudentCourses.resx">
-      <DependentUpon>ViewStudentCourses.cs</DependentUpon>
+    <EmbeddedResource Include="frmCourseSelect.resx">
+      <DependentUpon>frmCourseSelect.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

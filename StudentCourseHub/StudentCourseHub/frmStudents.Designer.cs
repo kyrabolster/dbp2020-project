@@ -1,6 +1,6 @@
 ﻿namespace StudentCourseHub
 {
-    partial class Students
+    partial class frmStudents
     {
         /// <summary>
         /// Required designer variable.
@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.grpStudents = new System.Windows.Forms.GroupBox();
+            this.btnSave = new System.Windows.Forms.Button();
             this.txtAddress = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtLastName = new System.Windows.Forms.TextBox();
@@ -46,7 +47,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnFirst = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.btnCreate = new System.Windows.Forms.Button();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -59,6 +60,7 @@
             // 
             // grpStudents
             // 
+            this.grpStudents.Controls.Add(this.btnSave);
             this.grpStudents.Controls.Add(this.txtAddress);
             this.grpStudents.Controls.Add(this.label6);
             this.grpStudents.Controls.Add(this.txtLastName);
@@ -75,7 +77,7 @@
             this.grpStudents.Controls.Add(this.btnAdd);
             this.grpStudents.Controls.Add(this.btnDelete);
             this.grpStudents.Controls.Add(this.btnFirst);
-            this.grpStudents.Controls.Add(this.btnSave);
+            this.grpStudents.Controls.Add(this.btnCreate);
             this.grpStudents.Controls.Add(this.btnPrevious);
             this.grpStudents.Controls.Add(this.btnNext);
             this.grpStudents.Controls.Add(this.label3);
@@ -87,10 +89,23 @@
             this.grpStudents.Margin = new System.Windows.Forms.Padding(4);
             this.grpStudents.Name = "grpStudents";
             this.grpStudents.Padding = new System.Windows.Forms.Padding(4);
-            this.grpStudents.Size = new System.Drawing.Size(574, 610);
+            this.grpStudents.Size = new System.Drawing.Size(574, 664);
             this.grpStudents.TabIndex = 10;
             this.grpStudents.TabStop = false;
             this.grpStudents.Text = "Student Information";
+            // 
+            // btnSave
+            // 
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Location = new System.Drawing.Point(404, 530);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(108, 58);
+            this.btnSave.TabIndex = 42;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // txtAddress
             // 
@@ -143,7 +158,6 @@
             this.txtMiddleName.Size = new System.Drawing.Size(447, 23);
             this.txtMiddleName.TabIndex = 37;
             this.txtMiddleName.Tag = "MiddleName";
-            this.txtMiddleName.Validating += new System.ComponentModel.CancelEventHandler(this.txt_Validating);
             // 
             // label2
             // 
@@ -209,12 +223,13 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.CausesValidation = false;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(404, 539);
+            this.btnCancel.Location = new System.Drawing.Point(172, 596);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(108, 58);
+            this.btnCancel.Size = new System.Drawing.Size(224, 58);
             this.btnCancel.TabIndex = 26;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -223,7 +238,7 @@
             // btnLast
             // 
             this.btnLast.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLast.Location = new System.Drawing.Point(404, 479);
+            this.btnLast.Location = new System.Drawing.Point(404, 470);
             this.btnLast.Margin = new System.Windows.Forms.Padding(4);
             this.btnLast.Name = "btnLast";
             this.btnLast.Size = new System.Drawing.Size(108, 53);
@@ -236,7 +251,7 @@
             // 
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(56, 539);
+            this.btnAdd.Location = new System.Drawing.Point(56, 530);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(108, 58);
@@ -249,7 +264,7 @@
             // 
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(172, 539);
+            this.btnDelete.Location = new System.Drawing.Point(172, 530);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(108, 58);
@@ -261,7 +276,7 @@
             // btnFirst
             // 
             this.btnFirst.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFirst.Location = new System.Drawing.Point(56, 479);
+            this.btnFirst.Location = new System.Drawing.Point(56, 470);
             this.btnFirst.Margin = new System.Windows.Forms.Padding(4);
             this.btnFirst.Name = "btnFirst";
             this.btnFirst.Size = new System.Drawing.Size(108, 53);
@@ -270,23 +285,24 @@
             this.btnFirst.UseVisualStyleBackColor = true;
             this.btnFirst.Click += new System.EventHandler(this.Navigation_Handler);
             // 
-            // btnSave
+            // btnCreate
             // 
-            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(288, 539);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(108, 58);
-            this.btnSave.TabIndex = 25;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnCreate.Enabled = false;
+            this.btnCreate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCreate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCreate.Location = new System.Drawing.Point(288, 530);
+            this.btnCreate.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCreate.Name = "btnCreate";
+            this.btnCreate.Size = new System.Drawing.Size(108, 58);
+            this.btnCreate.TabIndex = 25;
+            this.btnCreate.Text = "Create";
+            this.btnCreate.UseVisualStyleBackColor = true;
+            this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
             // btnPrevious
             // 
             this.btnPrevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPrevious.Location = new System.Drawing.Point(172, 479);
+            this.btnPrevious.Location = new System.Drawing.Point(172, 470);
             this.btnPrevious.Margin = new System.Windows.Forms.Padding(4);
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(108, 53);
@@ -298,7 +314,7 @@
             // btnNext
             // 
             this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNext.Location = new System.Drawing.Point(288, 479);
+            this.btnNext.Location = new System.Drawing.Point(288, 470);
             this.btnNext.Margin = new System.Windows.Forms.Padding(4);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(108, 53);
@@ -346,7 +362,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 655);
+            this.ClientSize = new System.Drawing.Size(705, 709);
             this.Controls.Add(this.grpStudents);
             this.Name = "Students";
             this.Text = "Students";
@@ -370,7 +386,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnFirst;
-        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label label3;
@@ -385,5 +401,6 @@
         private System.Windows.Forms.TextBox txtMiddleName;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ErrorProvider errProvider;
+        private System.Windows.Forms.Button btnSave;
     }
 }

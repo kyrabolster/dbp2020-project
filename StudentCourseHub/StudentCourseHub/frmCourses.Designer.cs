@@ -1,6 +1,6 @@
 ﻿namespace StudentCourseHub
 {
-    partial class Courses
+    partial class frmCourses
     {
         /// <summary>
         /// Required designer variable.
@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.grpCourses = new System.Windows.Forms.GroupBox();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.cmbCampus = new System.Windows.Forms.ComboBox();
             this.cmbInstructors = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -40,7 +42,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnFirst = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.btnCreate = new System.Windows.Forms.Button();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.txtDescription = new System.Windows.Forms.TextBox();
@@ -48,13 +50,13 @@
             this.txtCourseTitle = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.errProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.cmbCampus = new System.Windows.Forms.ComboBox();
             this.grpCourses.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // grpCourses
             // 
+            this.grpCourses.Controls.Add(this.btnSave);
             this.grpCourses.Controls.Add(this.cmbCampus);
             this.grpCourses.Controls.Add(this.cmbInstructors);
             this.grpCourses.Controls.Add(this.label6);
@@ -66,7 +68,7 @@
             this.grpCourses.Controls.Add(this.btnAdd);
             this.grpCourses.Controls.Add(this.btnDelete);
             this.grpCourses.Controls.Add(this.btnFirst);
-            this.grpCourses.Controls.Add(this.btnSave);
+            this.grpCourses.Controls.Add(this.btnCreate);
             this.grpCourses.Controls.Add(this.btnPrevious);
             this.grpCourses.Controls.Add(this.btnNext);
             this.grpCourses.Controls.Add(this.txtDescription);
@@ -79,10 +81,33 @@
             this.grpCourses.Margin = new System.Windows.Forms.Padding(4);
             this.grpCourses.Name = "grpCourses";
             this.grpCourses.Padding = new System.Windows.Forms.Padding(4);
-            this.grpCourses.Size = new System.Drawing.Size(574, 540);
+            this.grpCourses.Size = new System.Drawing.Size(574, 583);
             this.grpCourses.TabIndex = 9;
             this.grpCourses.TabStop = false;
             this.grpCourses.Text = "Course Information";
+            // 
+            // btnSave
+            // 
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Location = new System.Drawing.Point(404, 444);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(108, 58);
+            this.btnSave.TabIndex = 34;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // cmbCampus
+            // 
+            this.cmbCampus.FormattingEnabled = true;
+            this.cmbCampus.Location = new System.Drawing.Point(65, 273);
+            this.cmbCampus.Name = "cmbCampus";
+            this.cmbCampus.Size = new System.Drawing.Size(446, 28);
+            this.cmbCampus.TabIndex = 33;
+            this.cmbCampus.Tag = "Campus";
+            this.cmbCampus.Validating += new System.ComponentModel.CancelEventHandler(this.cmb_Validating);
             // 
             // cmbInstructors
             // 
@@ -136,12 +161,13 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.CausesValidation = false;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(404, 444);
+            this.btnCancel.Location = new System.Drawing.Point(172, 520);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(108, 58);
+            this.btnCancel.Size = new System.Drawing.Size(224, 58);
             this.btnCancel.TabIndex = 26;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -197,18 +223,19 @@
             this.btnFirst.UseVisualStyleBackColor = true;
             this.btnFirst.Click += new System.EventHandler(this.Navigation_Handler);
             // 
-            // btnSave
+            // btnCreate
             // 
-            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(288, 444);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(108, 58);
-            this.btnSave.TabIndex = 25;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnCreate.Enabled = false;
+            this.btnCreate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCreate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCreate.Location = new System.Drawing.Point(288, 444);
+            this.btnCreate.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCreate.Name = "btnCreate";
+            this.btnCreate.Size = new System.Drawing.Size(108, 58);
+            this.btnCreate.TabIndex = 25;
+            this.btnCreate.Text = "Create";
+            this.btnCreate.UseVisualStyleBackColor = true;
+            this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
             // btnPrevious
             // 
@@ -281,24 +308,15 @@
             // 
             this.errProvider.ContainerControl = this;
             // 
-            // cmbCampus
-            // 
-            this.cmbCampus.FormattingEnabled = true;
-            this.cmbCampus.Location = new System.Drawing.Point(65, 273);
-            this.cmbCampus.Name = "cmbCampus";
-            this.cmbCampus.Size = new System.Drawing.Size(446, 28);
-            this.cmbCampus.TabIndex = 33;
-            this.cmbCampus.Tag = "Campus";
-            this.cmbCampus.Validating += new System.ComponentModel.CancelEventHandler(this.cmb_Validating);
-            // 
-            // Courses
+            // frmCourses
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(661, 605);
+            this.ClientSize = new System.Drawing.Size(661, 617);
             this.Controls.Add(this.grpCourses);
-            this.Name = "Courses";
-            this.Text = " ";
+            this.Name = "frmCourses";
+            this.Tag = "Courses";
+            this.Text = " Courses";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Courses_FormClosing);
             this.Load += new System.EventHandler(this.Courses_Load);
             this.grpCourses.ResumeLayout(false);
@@ -318,7 +336,7 @@
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnFirst;
-        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.TextBox txtDescription;
@@ -330,5 +348,6 @@
         private System.Windows.Forms.ComboBox cmbInstructors;
         private System.Windows.Forms.ErrorProvider errProvider;
         private System.Windows.Forms.ComboBox cmbCampus;
+        private System.Windows.Forms.Button btnSave;
     }
 }

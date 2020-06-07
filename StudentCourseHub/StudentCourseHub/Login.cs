@@ -29,8 +29,13 @@ namespace StudentCourseHub
         {
             try
             {
-                if (txtUsername.Text == Environment.UserName &&
-                    txtPassword.Text.Trim().ToLower() == ConfigurationManager.AppSettings["DefaultPassword"].ToString().ToLower())
+                string username = txtUsername.Text.ToLower().Trim();
+                string password = txtPassword.Text.Trim();
+
+                string sqlLogin = $"SELECT Password FROM Login WHERE Username = '{username}'";
+                string correctPass = DataAccess.ExecuteScalar(sqlLogin).ToString();
+
+                if (password == correctPass.Trim())
                 {
                     DialogResult = DialogResult.OK;
                 }

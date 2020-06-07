@@ -1,6 +1,6 @@
 ﻿namespace StudentCourseHub
 {
-    partial class Instructors
+    partial class frmInstructors
     {
         /// <summary>
         /// Required designer variable.
@@ -40,7 +40,7 @@
             this.btnNext = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txtInstructorName = new System.Windows.Forms.TextBox();
-            this.Name = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
             this.grpInstructors.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +57,7 @@
             this.grpInstructors.Controls.Add(this.btnNext);
             this.grpInstructors.Controls.Add(this.label3);
             this.grpInstructors.Controls.Add(this.txtInstructorName);
-            this.grpInstructors.Controls.Add(this.Name);
+            this.grpInstructors.Controls.Add(this.lblName);
             this.grpInstructors.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.grpInstructors.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpInstructors.Location = new System.Drawing.Point(113, 30);
@@ -129,6 +129,7 @@
             this.btnLast.TabIndex = 22;
             this.btnLast.Text = "Last";
             this.btnLast.UseVisualStyleBackColor = true;
+            this.btnLast.Click += new System.EventHandler(this.Navigation_Handler);
             // 
             // btnFirst
             // 
@@ -140,6 +141,7 @@
             this.btnFirst.TabIndex = 21;
             this.btnFirst.Text = "First";
             this.btnFirst.UseVisualStyleBackColor = true;
+            this.btnFirst.Click += new System.EventHandler(this.Navigation_Handler);
             // 
             // btnPrevious
             // 
@@ -151,6 +153,7 @@
             this.btnPrevious.TabIndex = 20;
             this.btnPrevious.Text = "Previous";
             this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Click += new System.EventHandler(this.Navigation_Handler);
             // 
             // btnNext
             // 
@@ -162,6 +165,7 @@
             this.btnNext.TabIndex = 19;
             this.btnNext.Text = "Next";
             this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.Navigation_Handler);
             // 
             // label3
             // 
@@ -183,23 +187,26 @@
             this.txtInstructorName.TabIndex = 1;
             this.txtInstructorName.Tag = "InstructorName";
             // 
-            // Name
+            // lblName
             // 
-            this.Name.AutoSize = true;
-            this.Name.Location = new System.Drawing.Point(61, 79);
-            this.Name.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Name.Name = "Name";
-            this.Name.Size = new System.Drawing.Size(57, 20);
-            this.Name.TabIndex = 0;
-            this.Name.Text = "Name";
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(61, 79);
+            this.lblName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(57, 20);
+            this.lblName.TabIndex = 0;
+            this.lblName.Text = "Name";
             // 
-            // Instructors
+            // frmInstructors
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 468);
             this.Controls.Add(this.grpInstructors);
+            this.Name = "frmInstructors";
             this.Text = "Instructors";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Instructors_FormClosing);
+            this.Load += new System.EventHandler(this.Instructors_Load);
             this.grpInstructors.ResumeLayout(false);
             this.grpInstructors.PerformLayout();
             this.ResumeLayout(false);
@@ -220,6 +227,6 @@
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtInstructorName;
-        private System.Windows.Forms.Label Name;
+        private System.Windows.Forms.Label lblName;
     }
 }

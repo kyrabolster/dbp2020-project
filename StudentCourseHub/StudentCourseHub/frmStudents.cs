@@ -17,9 +17,9 @@ using System.Windows.Forms;
 
 namespace StudentCourseHub
 {
-    public partial class Students : Form
+    public partial class frmStudents : Form
     {
-        public Students()
+        public frmStudents()
         {
             InitializeComponent();
         }
@@ -54,9 +54,10 @@ namespace StudentCourseHub
             {
                 UIUtilities.ClearControls(this.grpStudents.Controls);
 
-                btnSave.Text = "Create";
+                btnCreate.Enabled = true;
                 btnAdd.Enabled = false;
                 btnDelete.Enabled = false;
+                btnSave.Enabled = false;
 
                 NavigationState(false);
             }
@@ -76,7 +77,7 @@ namespace StudentCourseHub
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void btnCreate_Click(object sender, EventArgs e)
         {
             try
             {
@@ -96,12 +97,43 @@ namespace StudentCourseHub
             }
         }
 
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ValidateChildren(ValidationConstraints.Enabled))
+                {
+                    DialogResult dialogResult = MessageBox.Show("Are you sure you want to modify this student record in the database?", 
+                                                                "Are you sure?", MessageBoxButtons.YesNo);
+
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        UpdateStudent();
+                    }
+                    else
+                    {
+                        LoadStudentDetails();
+                    }
+                }
+            }
+            // add more sqlExceptions throughout
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Something is wrong with the data or database!", ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
+        }
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             LoadStudentDetails();
             btnAdd.Enabled = true;
             btnAdd.Enabled = true;
             btnDelete.Enabled = true;
+            btnSave.Enabled = true;
 
             NavigationState(true);
             NextPreviousButtonManagement();
@@ -231,7 +263,43 @@ namespace StudentCourseHub
                 MessageBox.Show("Student created.");
                 btnAdd.Enabled = true;
                 btnDelete.Enabled = true;
+                btnCreate.Enabled = false;
+                btnSave.Enabled = true;
                 LoadFirstStudent();
+            }
+            else
+            {
+                MessageBox.Show("The database did not report the correct number of rows affected.");
+            }
+        }
+
+        private void UpdateStudent()
+        {
+            string studentId = txtStudentId.Text;
+            string firstName = txtFirstName.Text;
+            string middleName = txtMiddleName.Text;
+            string lastName = txtLastName.Text;
+            string address = txtAddress.Text;
+            string email = txtEmail.Text;
+            string phone = txtPhone.Text;
+
+            // Enforce business rules
+
+            string sqlUpdateStudent = $@"UPDATE Student
+                                        SET FirstName = '{firstName}', MiddleName = '{middleName}', LastName = '{lastName}', 
+                                            Address = '{address}', Email = '{email}', Phone = '{phone}'
+                                        WHERE StudentId = {studentId}";
+
+            // how do you know if false data? eg description > 255 char ??
+
+            int rowsAffected = DataAccess.ExecuteNonQuery(sqlUpdateStudent);
+
+            if (rowsAffected == 1)
+            {
+                MessageBox.Show("Student record updated.");
+                btnAdd.Enabled = true;
+                btnDelete.Enabled = true;
+
             }
             else
             {
