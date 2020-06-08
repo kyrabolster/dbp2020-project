@@ -205,6 +205,10 @@ INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [Inst
 GO
 INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (23, N'Business', N'As global markets become increasingly competitive, employers are seeking information technology (IT) professionals who are not only talented developers or systems administrators, but also understand business.', N'Moncton', 2)
 GO
+INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (2, N'iOS Application Development', N'Mobile Apps has become a huge industry.  Swift is the newest development language for Mac and iOS application development, including Mac, IPhone and IPad.', N'Moncton', 2)
+GO
+INSERT [dbo].[Course] ([CourseId], [CourseTitle], [Description], [Campus], [InstructorId]) VALUES (3, N'PHP', N'Students learn the comprehensive steps required for building dynamic, data-driven, interactive server-side websites with PHP.', N'Moncton', 5)
+GO
 SET IDENTITY_INSERT [dbo].[Course] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Instructor] ON 
